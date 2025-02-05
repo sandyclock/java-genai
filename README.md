@@ -12,13 +12,13 @@ in production environments at this stage.
 
 If you're using Maven, add the following to your dependencies:
 
-<!-- {x-version-update-start:genai-client:released} -->
+<!-- {x-version-update-start:google-genai:released} -->
 
 ```xml
 <dependencies>
   <dependency>
     <groupId>com.google.genai</groupId>
-    <artifactId>genai-client</artifactId>
+    <artifactId>google-genai</artifactId>
     <version>0.1.0</version>
   </dependency>
 </dependencies>
@@ -287,7 +287,7 @@ Apache 2.0 - See [LICENSE][license] for more information.
 
 [gemini-api-doc]: https://ai.google.dev/gemini-api/docs
 [vertex-api-doc]: https://cloud.google.com/vertex-ai/generative-ai/docs/learn/overview
-[maven-version-image]: https://img.shields.io/maven-central/v/com.google.genai/genai-client.svg
-[maven-version-link]: https://central.sonatype.com/artifact/com.google.genai/genai-client/0.1.0
+[maven-version-image]: https://img.shields.io/maven-central/v/com.google.genai/google-genai.svg
+[maven-version-link]: https://central.sonatype.com/artifact/com.google.genai/google-genai/0.1.0
 [license]: https://github.com/googleapis/java-genai/blob/main/LICENSE
 
