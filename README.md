@@ -1,12 +1,12 @@
-# Google Unified Gen AI Java SDK
+# Google Gen AI Java SDK
 
 Java idiomatic SDK for the
-[Gemini Developer API](https://ai.google.dev/gemini-api/docs) and
-[Vertex AI](https://cloud.google.com/vertex-ai/generative-ai/docs/learn/overview)
-APIs.
+[Gemini Developer APIs][gemini-api-doc] and [Vertex AI][vertex-api-doc] APIs.
 
-![Maven][maven-version-image][maven-version-link]
-![Stability][stability-image]
+[![Maven][maven-version-image]][maven-version-link]
+
+This is an early release. API is subject to change. Please do not use this SDK
+in production environments at this stage.
 
 ## Add dependency
 
@@ -28,7 +28,7 @@ If you're using Maven, add the following to your dependencies:
 
 ## Getting Started
 
-Follow the instructions in this section to get started using the Unified Gen AI
+Follow the instructions in this section to get started using the Google Gen AI
 SDK for Java.
 
 You can either set the following environment variables or pass them to the
@@ -40,49 +40,52 @@ GOOGLE_CLOUD_PROJECT=${PROJECT_NAME}  # Required to call Vertex AI APIs
 GOOGLE_CLOUD_LOCATION=${LOCATION}     # Required to call Vertex AI APIs
 ```
 
-### Call Vertex AI or Gemini API using the same client
-By default, the client uses the Gemini Developer API. To use Vertex, set
-`VertexAI=true`.
+### Create a client
+The Google Gen AI Java SDK provides a Client class, simplifying interaction
+with both the Gemini API and Vertex AI API. With minimal configuration,
+you can seamlessly switch between the 2 backends without rewriting
+your code.
 
+#### Instantiate a client that uses Gemini API
 ```java
-Client client = Client.builder()
-  .setAPIKey(System.getenv("GOOGLE_API_KEY"))
-  .build();
-```
-
-```java
-Client client = Client.builder()
-  .setVertexAI(true)
-  .setProject(System.getenv("GOOGLE_CLOUD_PROJECT"))
-  .setLocation(System.getenv("GOOGLE_CLOUD_LOCATION"))
-  .build();
-```
-
-#### Basic Text Generation
-Vertex AI SDK allows you to access the service programmatically. The following
-code snippet is the most basic usage of SDK.
-
-```java
-package <your package name>;
-
 import com.google.genai.Client;
-import java.io.IOException;
-import org.apache.http.HttpException;
 
-public class BasicTextGeneration {
-  public static void main(String[] args) throws IOException, HttpException {
-    Client client = Client.builder().setVertexAI(true).build();
+// The simplest way for instantiation. The client gets the API key from the
+// environment variable `GOOGLE_API_KEY` and use Gemini API when the environment
+// variable `GOOGLE_GENAI_USE_VERTEXAI` is not set or set to `false`.
+Client client = new Client();
 
-    GenerateContentResponse response =
-        client.models.generateContent("gemini-2.0-flash-001", "What is your name?", null);
-    System.out.println(response.text());
-  }
-}
+// Use Builder class for instantiation. Explicitly set the API key to use Gemini
+// Developer backend.
+Client client = Client.builder().apiKey("your-api-key").build();
 ```
 
-#### Stream Generated Output
+#### Instantiate a client that uses Vertex AI API
+```java
+import com.google.genai.Client;
 
-To get a streamed output, you can use the `generateContentStream` method:
+// The client gets the project and location from the environment variable
+// `GOOGLE_CLOUD_PROJECT` and `GOOGLE_CLOUD_LOCATION`. It uses Vertex AI APIs
+// when the environment variable `GOOGLE_GENAI_USE_VERTEXAI` is set to `true`.
+Client client = new Client();
+
+// Use Builder class for instantiation. Explicitly set the project and location,
+// and set `vertexAI(true)` to use Vertex AI backend.
+Client client = Client.builder()
+  .project("your-project")
+  .location("your-location")
+  .vertexAI(true)
+  .build();
+```
+
+### Interact with models
+The Gen AI Java SDK allows you to access the service programmatically.
+The following code snippets are some basic usages of model inferencing.
+
+#### Generate Content
+Use `generateContent` method for the most basic text generation.
+
+##### with text input
 
 ```java
 package <your package name>;
@@ -92,16 +95,180 @@ import com.google.genai.types.GenerateContentResponse;
 import java.io.IOException;
 import org.apache.http.HttpException;
 
+public class GenerateContentWithTextInput {
+  public static void main(String[] args) throws IOException, HttpException {
+    // Instantiate the client. The client by default uses the Gemini API. It gets
+    // the API key from the environment variable `GOOGLE_API_KEY`.
+    Client client = new Client();
+
+    GenerateContentResponse response =
+        client.models.generateContent("gemini-2.0-flash-001", "What is your name?", null);
+
+    // Gets the text string from the response by the quick accessor method `text()`.
+    System.out.println("Unary response: " + response.text());
+  }
+}
+```
+
+##### with text and image input
+
+```java
+package <your package name>;
+
+import com.google.common.collect.ImmutableList;
+import com.google.genai.Client;
+import com.google.genai.types.Content;
+import com.google.genai.types.GenerateContentResponse;
+import com.google.genai.types.Part;
+import java.io.IOException;
+import org.apache.http.HttpException;
+
+public class GenerateContentWithImageInput {
+  public static void main(String[] args) throws IOException, HttpException {
+    // Instantiate the client using Vertex API. The client gets the project and location from the
+    // environment variables `GOOGLE_CLOUD_PROJECT` and `GOOGLE_CLOUD_LOCATION`.
+    Client client = Client.builder().vertexAI(true).build();
+
+    // Create parts from builder or `fromJson` method.
+    Part textPart = Part.builder().text("describe the image").build();
+    Part imagePart =
+        Part.fromJson(
+            "{\"fileData\":{\"mimeType\":\"image/jpeg\",\"fileUri\":\"gs://path/to/image.jpg\"}}");
+
+    Content content =
+        Content.builder().role("user").parts(ImmutableList.of(textPart, imagePart)).build();
+
+    GenerateContentResponse response =
+        client.models.generateContent("gemini-2.0-flash-001", content, null);
+
+    System.out.println("Response: " + response.text());
+  }
+}
+```
+
+#### Stream Generated Content
+To get a streamed response, you can use the `generateContentStream` method:
+
+```java
+package <your package name>;
+
+import com.google.genai.Client;
+import com.google.genai.ResponseStream;
+import com.google.genai.types.GenerateContentResponse;
+import java.io.IOException;
+import org.apache.http.HttpException;
+
 public class StreamGeneration {
   public static void main(String[] args) throws IOException, HttpException {
-    Client client = Client.builder().setVertexAI(true).build();
+    // Instantiate the client using Vertex API. The client gets the project and location from the
+    // environment variables `GOOGLE_CLOUD_PROJECT` and `GOOGLE_CLOUD_LOCATION`.
+    Client client = Client.builder().vertexAI(true).build();
 
-    ResponseStream<GenerateContentResponse> response =
+    ResponseStream<GenerateContentResponse> responseStream =
         client.models.generateContentStream(
             "gemini-2.0-flash-001", "Tell me a story in 300 words.", null);
-    for (GenerateContentResponse res : response) {
+
+    System.out.println("Streaming response: ");
+    for (GenerateContentResponse res : responseStream) {
       System.out.print(res.text());
     }
+
+    // To save resources and avoid connection leaks, it is recommended to close the response
+    // stream after consumption (or using try block to get the response stream).
+    responseStream.close();
+  }
+}
+```
+
+#### Async Generate Content
+To get a response asynchronously, you can use the `generateContent` method from
+the `client.async.models` namespace.
+
+```java
+package <your package name>;
+
+import com.google.genai.Client;
+import com.google.genai.types.GenerateContentResponse;
+import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
+import org.apache.http.HttpException;
+
+public class GenerateContentAsync {
+  public static void main(String[] args) throws IOException, HttpException {
+    // Instantiates the client using Gemini API, and sets the API key in the builder.
+    Client client = Client.builder().apiKey("your-api-key").build();
+
+    CompletableFuture<GenerateContentResponse> responseFuture =
+        client.async.models.generateContent(
+            "gemini-2.0-flash-001", "Introduce Google AI Studio.", null);
+
+    responseFuture
+        .thenAccept(
+            response -> {
+              System.out.println("Async response: " + response.text());
+            })
+        .join();
+  }
+}
+```
+
+#### Generate Content with extra configs
+To set configurations like System Instructions and Safety Settings, you can pass
+a `GenerateContentConfig` to the `GenerateContent` method.
+
+```java
+package <your package name>;
+
+import com.google.common.collect.ImmutableList;
+import com.google.genai.Client;
+import com.google.genai.types.Content;
+import com.google.genai.types.GenerateContentConfig;
+import com.google.genai.types.GenerateContentResponse;
+import com.google.genai.types.GoogleSearch;
+import com.google.genai.types.Part;
+import com.google.genai.types.SafetySetting;
+import com.google.genai.types.Tool;
+import java.io.IOException;
+import org.apache.http.HttpException;
+
+public class GenerateContentWithConfigs {
+  public static void main(String[] args) throws IOException, HttpException {
+    Client client = new Client();
+
+    // Sets the safety settings in the config.
+    ImmutableList<SafetySetting> safetySettings =
+        ImmutableList.of(
+            SafetySetting.builder()
+                .category("HARM_CATEGORY_HATE_SPEECH")
+                .threshold("BLOCK_ONLY_HIGH")
+                .build(),
+            SafetySetting.builder()
+                .category("HARM_CATEGORY_DANGEROUS_CONTENT")
+                .threshold("BLOCK_LOW_AND_ABOVE")
+                .build());
+
+    // Sets the system instruction in the config.
+    Content systemInstruction =
+        Content.builder()
+            .parts(ImmutableList.of(Part.builder().text("Answer as concisely as possible").build()))
+            .build();
+
+    // Sets the Google Search tool in the config.
+    Tool googleSearchTool = Tool.builder().googleSearch(GoogleSearch.builder().build()).build();
+
+    GenerateContentConfig config =
+        GenerateContentConfig.builder()
+            .candidateCount(1)
+            .maxOutputTokens(1024)
+            .safetySettings(safetySettings)
+            .systemInstruction(systemInstruction)
+            .tools(ImmutableList.of(googleSearchTool))
+            .build();
+
+    GenerateContentResponse response =
+        client.models.generateContent("gemini-2.0-flash-001", "Tell me the history of LLM", config);
+
+    System.out.println("Response: " + response.text());
   }
 }
 ```
@@ -112,8 +279,15 @@ This library follows [Semantic Versioning](http://semver.org/).
 
 ## Contribute to this library
 
-The Google Gen AI SDK is will accept contributions in the future.
+The Google Gen AI Java SDK will accept contributions in the future.
 
 ## License
 
 Apache 2.0 - See [LICENSE][license] for more information.
+
+[gemini-api-doc]: https://ai.google.dev/gemini-api/docs
+[vertex-api-doc]: https://cloud.google.com/vertex-ai/generative-ai/docs/learn/overview
+[maven-version-image]: https://img.shields.io/maven-central/v/com.google.genai/genai-client.svg
+[maven-version-link]: https://central.sonatype.com/artifact/com.google.genai/genai-client/0.1.0
+[license]: https://github.com/googleapis/java-genai/blob/main/LICENSE
+
