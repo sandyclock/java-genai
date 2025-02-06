@@ -19,23 +19,23 @@ package com.google.genai;
 import java.io.IOException;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpException;
-import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.StatusLine;
 
 // TODO(b/369384123): Change the replay API response to use the ReplayFile.
 /** Provides a simulated HTTP response from a replay file. */
 final class ReplayApiResponse extends ApiResponse {
 
-  private final CloseableHttpResponse response;
+  private final HttpEntity entity;
+  private final StatusLine statusLine;
 
-  public ReplayApiResponse(CloseableHttpResponse response) {
-    this.response = response;
+  public ReplayApiResponse(HttpEntity entity, StatusLine statusLine) {
+    this.entity = entity;
+    this.statusLine = statusLine;
   }
 
   public HttpEntity getEntity() throws HttpException {
-    return this.response.getEntity();
+    return this.entity;
   }
 
-  public void close() throws IOException {
-    this.response.close();
-  }
+  public void close() throws IOException {}
 }

@@ -34,10 +34,8 @@ import java.util.Map;
 import java.util.Optional;
 import org.apache.http.ProtocolVersion;
 import org.apache.http.StatusLine;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.entity.BasicHttpEntity;
 import org.apache.http.message.BasicStatusLine;
-import org.mockito.Mockito;
 
 // TODO(b/369384123): Currently the ReplayApiClient mirrors the HttpApiClient. We will refactor the
 // ReplayApiClient to use the ReplayFile as part of resolving b/369384123.
@@ -127,18 +125,15 @@ final class ReplayApiClient extends ApiClient {
         responseBody.append(bodySegment.toString());
       }
       String responseString = responseBody.toString();
-      CloseableHttpResponse response = Mockito.mock(CloseableHttpResponse.class);
 
       BasicHttpEntity entity = new BasicHttpEntity();
       entity.setContent(new ByteArrayInputStream(responseString.getBytes(StandardCharsets.UTF_8)));
       entity.setContentLength(responseString.length());
-      Mockito.when(response.getEntity()).thenReturn(entity);
 
       StatusLine statusLine =
           new BasicStatusLine(new ProtocolVersion("HTTP", 1, 1), statusCode, "OK");
-      Mockito.when(response.getStatusLine()).thenReturn(statusLine);
 
-      return new ReplayApiResponse(response);
+      return new ReplayApiResponse(entity, statusLine);
     } else {
       // Note that if the client mode is "api", then the ReplayApiClient will not be used.
       throw new IllegalArgumentException("Invalid client mode: " + this.clientMode);
