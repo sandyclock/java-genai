@@ -13,7 +13,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <google-genai.version>0.1.0-SNAPSHOT</google-genai.version>
+    <google-genai.version>0.1.0</google-genai.version>
   </properties>
 
   <dependencies>

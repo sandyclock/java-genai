@@ -6,14 +6,35 @@
 
   <groupId>com.google.genai</groupId>
   <artifactId>google-genai</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
-
   <name>google-genai</name>
+  <version>0.1.0</version>
+  <packaging>jar</packaging>
   <description>
     Java idiomatic SDK for the Gemini Developer APIs and Vertex AI APIs.
   </description>
   <url>https://github.com/googleapis/java-genai</url>
+
+  <licenses>
+    <license>
+      <name>The Apache License, Version 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:git:git@github.com:googleapis/java-genai.git</connection>
+    <developerConnection>
+      scm:git:git@github.com:googleapis/java-genai.git
+    </developerConnection>
+    <url>git@github.com:googleapis/java-genai.git</url>
+  </scm>
+
+  <developers>
+    <developer>
+      <organization>Google Inc.</organization>
+      <organizationUrl>http://www.google.com</organizationUrl>
+    </developer>
+  </developers>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
