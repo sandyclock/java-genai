@@ -1181,8 +1181,11 @@ public final class Models {
           Common.getValueByPath(fromObject, new String[] {"responseModalities"}));
     }
 
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"mediaResolution"}))) {
-      throw new Error("mediaResolution parameter is not supported in Gemini API.");
+    if (Common.getValueByPath(fromObject, new String[] {"mediaResolution"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"mediaResolution"},
+          Common.getValueByPath(fromObject, new String[] {"mediaResolution"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"speechConfig"}) != null) {
