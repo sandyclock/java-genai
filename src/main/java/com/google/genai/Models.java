@@ -233,8 +233,11 @@ public final class Models {
       throw new Error("example parameter is not supported in Gemini API.");
     }
 
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"propertyOrdering"}))) {
-      throw new Error("propertyOrdering parameter is not supported in Gemini API.");
+    if (Common.getValueByPath(fromObject, new String[] {"propertyOrdering"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"propertyOrdering"},
+          Common.getValueByPath(fromObject, new String[] {"propertyOrdering"}));
     }
 
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"pattern"}))) {
