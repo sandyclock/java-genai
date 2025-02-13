@@ -1,9 +1,16 @@
 {
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
   "release-type": "java",
   "versioning": "always-bump-minor",
   "separate-pull-requests": true,
   "include-component-in-tag": false,
+  "initial-version": "0.2.0-SNAPSHOT",
   "packages": {
-    ".": {}
+    ".": {
+      "changelog-path": "CHANGELOG.md",
+      "release-type": "java",
+      "bump-minor-pre-major": false,
+      "bump-patch-for-minor-pre-major": false,
+    }
   }
 }
