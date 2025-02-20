@@ -1,11 +1,11 @@
 handleGHRelease: true
 manifest: true
-releaseType: java
+releaseType: maven
 bumpMinorPreMajor: true
 
 branches:
   - branch: main
-    releaseType: java
+    releaseType: maven
     handleGHRelease: true
     manifest: true
     manifestFile: .release-please-manifest.json
