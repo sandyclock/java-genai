@@ -92,7 +92,6 @@ public final class Client implements AutoCloseable {
 
     /** Sets whether to use Vertex AI APIs. */
     public Builder vertexAI(boolean vertexAI) {
-      checkNotNull(vertexAI, "vertexAI cannot be null");
       this.vertexAI = Optional.of(vertexAI);
       return this;
     }

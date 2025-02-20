@@ -73,7 +73,7 @@ public class ResponseStream<T extends JsonSerializable> implements Iterable<T>, 
       try {
         JsonNode currentJsonNode = JsonSerializable.objectMapper.readTree(currentJson);
         currentJsonNode = (JsonNode) converter.invoke(obj, null, currentJsonNode, null);
-        return T.fromJsonNode(currentJsonNode, clazz);
+        return JsonSerializable.fromJsonNode(currentJsonNode, clazz);
       } catch (IllegalAccessException | InvocationTargetException | JsonProcessingException e) {
         throw new IllegalStateException("Failed to convert JSON object " + currentJson, e);
       }

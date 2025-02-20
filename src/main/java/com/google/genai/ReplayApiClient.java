@@ -108,6 +108,7 @@ final class ReplayApiClient extends ApiClient {
   }
 
   /** Sends a Http Post request given the path and request json string. */
+  @SuppressWarnings("unchecked")
   public ApiResponse post(String path, String requestJson) throws IOException {
     if (this.clientMode.equals("replay") || this.clientMode.equals("auto")) {
       System.out.println("    === Using replay for ID: " + this.replayId);

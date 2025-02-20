@@ -80,6 +80,7 @@ final class Transformers {
    * @return the transformed list of Content
    * @throws IllegalArgumentException if the object is not a supported type
    */
+  @SuppressWarnings("unchecked")
   public static List<Content> tContents(ApiClient apiClient, Object contents) {
     if (contents == null) {
       return null;
@@ -161,6 +162,7 @@ final class Transformers {
   }
 
   /** Transforms an object to a list of Tools for the API. */
+  @SuppressWarnings("unchecked")
   public static List<Tool> tTools(ApiClient apiClient, Object origin) {
     if (origin == null) {
       return null;
