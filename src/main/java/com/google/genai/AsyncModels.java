@@ -35,36 +35,36 @@ public final class AsyncModels {
     this.models = new Models(apiClient);
   }
 
-  public CompletableFuture<GenerateContentResponse> generateContent(
-      String model, List<Content> contents, GenerateContentConfig config) {
-    return CompletableFuture.supplyAsync(
-        () -> {
-          try {
-            return models.generateContent(model, contents, config);
-          } catch (IOException | HttpException e) {
-            throw new RuntimeException(e);
-          }
-        });
-  }
-
-  public CompletableFuture<ResponseStream<GenerateContentResponse>> generateContentStream(
-      String model, List<Content> contents, GenerateContentConfig config) {
-    return CompletableFuture.supplyAsync(
-        () -> {
-          try {
-            return models.generateContentStream(model, contents, config);
-          } catch (IOException | HttpException e) {
-            throw new RuntimeException(e);
-          }
-        });
-  }
-
   public CompletableFuture<GenerateImagesResponse> generateImages(
       String model, String prompt, GenerateImagesConfig config) {
     return CompletableFuture.supplyAsync(
         () -> {
           try {
             return models.generateImages(model, prompt, config);
+          } catch (IOException | HttpException e) {
+            throw new RuntimeException(e);
+          }
+        });
+  }
+
+  /**
+   * Asynchronously generates content given a GenAI model and a content object.
+   *
+   * @param model the name of the GenAI model to use for generation
+   * @param contents a {@link List<com.google.genai.types.Content>} to send to the generative model
+   * @param config a {@link com.google.genai.types.GenerateContentConfig} instance that specifies
+   *     the optional configurations
+   * @return a {@link com.google.genai.types.GenerateContentResponse} instance that contains
+   *     response contents and other metadata
+   * @throws IOException if an I/O error occurs while making the API call
+   * @throws HttpException if an HTTP error occurs while making the API call
+   */
+  public CompletableFuture<GenerateContentResponse> generateContent(
+      String model, List<Content> contents, GenerateContentConfig config) {
+    return CompletableFuture.supplyAsync(
+        () -> {
+          try {
+            return models.generateContent(model, contents, config);
           } catch (IOException | HttpException e) {
             throw new RuntimeException(e);
           }
@@ -104,6 +104,31 @@ public final class AsyncModels {
   public CompletableFuture<GenerateContentResponse> generateContent(
       String model, String text, GenerateContentConfig config) throws IOException, HttpException {
     return generateContent(model, Transformers.tContents(null, (Object) text), config);
+  }
+
+  /**
+   * Asynchronously generates content with streaming support given a GenAI model and a content
+   * object.
+   *
+   * @param model the name of the GenAI model to use for generation
+   * @param contents a {@link List<com.google.genai.types.Content>} to send to the generative model
+   * @param config a {@link com.google.genai.types.GenerateContentConfig} instance that specifies
+   *     the optional configurations
+   * @return a {@link com.google.genai.types.GenerateContentResponse} instance that contains
+   *     response contents and other metadata
+   * @throws IOException if an I/O error occurs while making the API call
+   * @throws HttpException if an HTTP error occurs while making the API call
+   */
+  public CompletableFuture<ResponseStream<GenerateContentResponse>> generateContentStream(
+      String model, List<Content> contents, GenerateContentConfig config) {
+    return CompletableFuture.supplyAsync(
+        () -> {
+          try {
+            return models.generateContentStream(model, contents, config);
+          } catch (IOException | HttpException e) {
+            throw new RuntimeException(e);
+          }
+        });
   }
 
   /**

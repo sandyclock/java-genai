@@ -2379,7 +2379,7 @@ public final class Models {
     return toObject;
   }
 
-  public GenerateContentResponse generateContent(
+  private GenerateContentResponse privateGenerateContent(
       String model, List<Content> contents, GenerateContentConfig config)
       throws IOException, HttpException {
 
@@ -2422,7 +2422,7 @@ public final class Models {
     }
   }
 
-  public ResponseStream<GenerateContentResponse> generateContentStream(
+  private ResponseStream<GenerateContentResponse> privateGenerateContentStream(
       String model, List<Content> contents, GenerateContentConfig config)
       throws IOException, HttpException {
 
@@ -2509,6 +2509,24 @@ public final class Models {
    * Generates content given a GenAI model and a content object.
    *
    * @param model the name of the GenAI model to use for generation
+   * @param contents a {@link List<com.google.genai.types.Content>} to send to the generative model
+   * @param config a {@link com.google.genai.types.GenerateContentConfig} instance that specifies
+   *     the optional configurations
+   * @return a {@link com.google.genai.types.GenerateContentResponse} instance that contains
+   *     response contents and other metadata
+   * @throws IOException if an I/O error occurs while making the API call
+   * @throws HttpException if an HTTP error occurs while making the API call
+   */
+  public GenerateContentResponse generateContent(
+      String model, List<Content> contents, GenerateContentConfig config)
+      throws IOException, HttpException {
+    return privateGenerateContent(model, contents, config);
+  }
+
+  /**
+   * Generates content given a GenAI model and a content object.
+   *
+   * @param model the name of the GenAI model to use for generation
    * @param content a {@link com.google.genai.types.Content} to send to the generative model
    * @param config a {@link com.google.genai.types.GenerateContentConfig} instance that specifies
    *     the optional configurations
@@ -2520,7 +2538,8 @@ public final class Models {
   public GenerateContentResponse generateContent(
       String model, Content content, GenerateContentConfig config)
       throws IOException, HttpException {
-    return generateContent(model, Transformers.tContents(this.apiClient, (Object) content), config);
+    return privateGenerateContent(
+        model, Transformers.tContents(this.apiClient, (Object) content), config);
   }
 
   /**
@@ -2537,7 +2556,26 @@ public final class Models {
    */
   public GenerateContentResponse generateContent(
       String model, String text, GenerateContentConfig config) throws IOException, HttpException {
-    return generateContent(model, Transformers.tContents(this.apiClient, (Object) text), config);
+    return privateGenerateContent(
+        model, Transformers.tContents(this.apiClient, (Object) text), config);
+  }
+
+  /**
+   * Generates content with streaming support given a GenAI model and a content object.
+   *
+   * @param model the name of the GenAI model to use for generation
+   * @param contents a {@link List<com.google.genai.types.Content>} to send to the generative model
+   * @param config a {@link com.google.genai.types.GenerateContentConfig} instance that specifies
+   *     the optional configurations
+   * @return a {@link com.google.genai.types.GenerateContentResponse} instance that contains
+   *     response contents and other metadata
+   * @throws IOException if an I/O error occurs while making the API call
+   * @throws HttpException if an HTTP error occurs while making the API call
+   */
+  public ResponseStream<GenerateContentResponse> generateContentStream(
+      String model, List<Content> contents, GenerateContentConfig config)
+      throws IOException, HttpException {
+    return privateGenerateContentStream(model, contents, config);
   }
 
   /**
@@ -2555,7 +2593,7 @@ public final class Models {
   public ResponseStream<GenerateContentResponse> generateContentStream(
       String model, Content content, GenerateContentConfig config)
       throws IOException, HttpException {
-    return generateContentStream(
+    return privateGenerateContentStream(
         model, Transformers.tContents(this.apiClient, (Object) content), config);
   }
 
@@ -2573,7 +2611,7 @@ public final class Models {
    */
   public ResponseStream<GenerateContentResponse> generateContentStream(
       String model, String text, GenerateContentConfig config) throws IOException, HttpException {
-    return generateContentStream(
+    return privateGenerateContentStream(
         model, Transformers.tContents(this.apiClient, (Object) text), config);
   }
 }
