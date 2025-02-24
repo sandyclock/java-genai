@@ -43,7 +43,7 @@ public abstract class SubjectReferenceImage extends JsonSerializable {
   @JsonProperty("referenceId")
   public abstract Optional<Integer> referenceId();
 
-  /** The type of the reference image. */
+  /** The type of the reference image. Only set by the SDK. */
   @JsonProperty("referenceType")
   public abstract Optional<String> referenceType();
 
