@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import org.jspecify.annotations.Nullable;
 
 /** Response message for PredictionService.GenerateContent. */
 @AutoValue
@@ -96,7 +97,7 @@ public abstract class GenerateContentResponse extends JsonSerializable {
    *
    * @throws IllegalArgumentException if the response finishes unexpectedly.
    */
-  public ImmutableList<Part> parts() {
+  public @Nullable ImmutableList<Part> parts() {
     checkFinishReason();
 
     Optional<List<Candidate>> candidates = candidates();
@@ -120,7 +121,7 @@ public abstract class GenerateContentResponse extends JsonSerializable {
    *
    * @throws IllegalArgumentException if the response has non-text parts or finishes unexpectedly.
    */
-  public String text() {
+  public @Nullable String text() {
     ImmutableList<Part> parts = parts();
     if (parts == null || parts.isEmpty()) {
       return null;
@@ -151,11 +152,8 @@ public abstract class GenerateContentResponse extends JsonSerializable {
    *
    * <p>Returns null if there is no candidate, no content in the first candidate, or no parts in the
    * content.
-   *
-   * @throws IllegalArgumentException if the response has non-function-call parts or finishes
-   *     unexpectedly.
    */
-  public ImmutableList<FunctionCall> functionCalls() {
+  public @Nullable ImmutableList<FunctionCall> functionCalls() {
     ImmutableList<Part> parts = parts();
     if (parts == null || parts.isEmpty()) {
       return null;
@@ -163,22 +161,51 @@ public abstract class GenerateContentResponse extends JsonSerializable {
 
     return ImmutableList.copyOf(
         parts.stream()
-            .filter(
-                part -> {
-                  if (!part.functionCall().isPresent()
-                      && (part.inlineData().isPresent()
-                          || part.codeExecutionResult().isPresent()
-                          || part.executableCode().isPresent()
-                          || part.fileData().isPresent()
-                          || part.functionResponse().isPresent()
-                          || part.text().isPresent())) {
-                    throw new IllegalArgumentException(
-                        String.format("Only function call parts are supported, but got %s", part));
-                  }
-                  return part.functionCall().isPresent();
-                })
+            .filter(part -> part.functionCall().isPresent())
             .map(part -> part.functionCall().get())
             .collect(Collectors.toList()));
+  }
+
+  /**
+   * Returns the executable code in the response.
+   *
+   * <p>Returns null if there is no candidate, no content in the first candidate, or no parts in the
+   * content, or no executable code in the parts.
+   */
+  public @Nullable String executableCode() {
+    ImmutableList<Part> parts = parts();
+    if (parts == null || parts.isEmpty()) {
+      return null;
+    }
+
+    for (Part part : parts) {
+      if (part.executableCode().isPresent()) {
+        return part.executableCode().get().code().orElse("");
+      }
+    }
+
+    return null;
+  }
+
+  /**
+   * Returns the code execution result in the response.
+   *
+   * <p>Returns null if there is no candidate, no content in the first candidate, or no parts in the
+   * content, or no code execution result in the parts.
+   */
+  public @Nullable String codeExecutionResult() {
+    ImmutableList<Part> parts = parts();
+    if (parts == null || parts.isEmpty()) {
+      return null;
+    }
+
+    for (Part part : parts) {
+      if (part.codeExecutionResult().isPresent()) {
+        return part.codeExecutionResult().get().output().orElse("");
+      }
+    }
+
+    return null;
   }
 
   /** Gets the finish reason in a GenerateContentResponse. */

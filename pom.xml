@@ -139,6 +139,12 @@
       <version>${mockito.version}</version>
       <scope>test</scope>
     </dependency>
+    <!-- jspecify -->
+    <dependency>
+      <groupId>org.jspecify</groupId>
+      <artifactId>jspecify</artifactId>
+      <version>1.0.0</version>
+    </dependency>
     <dependency>
       <groupId>com.github.tomakehurst</groupId>
       <artifactId>wiremock-jre8</artifactId>
