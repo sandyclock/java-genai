@@ -23,6 +23,9 @@ import com.google.genai.types.GenerateContentConfig;
 import com.google.genai.types.GenerateContentResponse;
 import com.google.genai.types.GenerateImagesConfig;
 import com.google.genai.types.GenerateImagesResponse;
+import com.google.genai.types.Image;
+import com.google.genai.types.UpscaleImageConfig;
+import com.google.genai.types.UpscaleImageResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -165,5 +168,31 @@ public final class AsyncModels {
   public CompletableFuture<ResponseStream<GenerateContentResponse>> generateContentStream(
       String model, String text, GenerateContentConfig config) throws IOException, HttpException {
     return generateContentStream(model, Transformers.tContents(null, (Object) text), config);
+  }
+
+  /**
+   * Asynchronously upscales an image given a GenAI model and an image and an upscale factor.
+   *
+   * @param model the name of the GenAI model to use for upscaling
+   * @param image a {@link com.google.genai.types.Image} to send to the generative model
+   * @param upscaleFactor the factor to upscale the image
+   * @param config a {@link com.google.genai.types.UpscaleImageConfig} instance that specifies the
+   *     optional configurations
+   * @return a {@link com.google.genai.types.UpscaleImageResponse} instance that contains the
+   *     upscaled image.
+   * @throws IOException if an I/O error occurs while making the API call
+   * @throws HttpException if an HTTP error occurs while making the API call
+   */
+  public CompletableFuture<UpscaleImageResponse> upscaleImage(
+      String model, Image image, String upscaleFactor, UpscaleImageConfig config)
+      throws IOException, HttpException {
+    return CompletableFuture.supplyAsync(
+        () -> {
+          try {
+            return models.upscaleImage(model, image, upscaleFactor, config);
+          } catch (IOException | HttpException e) {
+            throw new RuntimeException(e);
+          }
+        });
   }
 }
