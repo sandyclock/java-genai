@@ -2436,6 +2436,20 @@ public final class Models {
       Common.setValueByPath(toObject, new String[] {"candidates"}, result);
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"createTime"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"createTime"},
+          Common.getValueByPath(fromObject, new String[] {"createTime"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"responseId"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"responseId"},
+          Common.getValueByPath(fromObject, new String[] {"responseId"}));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"modelVersion"}) != null) {
       Common.setValueByPath(
           toObject,

@@ -39,6 +39,14 @@ public abstract class GenerateContentResponse extends JsonSerializable {
   @JsonProperty("candidates")
   public abstract Optional<List<Candidate>> candidates();
 
+  /** Timestamp when the request is made to the server. */
+  @JsonProperty("createTime")
+  public abstract Optional<String> createTime();
+
+  /** Identifier for each response. */
+  @JsonProperty("responseId")
+  public abstract Optional<String> responseId();
+
   /** Output only. The model version used to generate the response. */
   @JsonProperty("modelVersion")
   public abstract Optional<String> modelVersion();
@@ -67,6 +75,12 @@ public abstract class GenerateContentResponse extends JsonSerializable {
   public abstract static class Builder {
     @JsonProperty("candidates")
     public abstract Builder candidates(List<Candidate> candidates);
+
+    @JsonProperty("createTime")
+    public abstract Builder createTime(String createTime);
+
+    @JsonProperty("responseId")
+    public abstract Builder responseId(String responseId);
 
     @JsonProperty("modelVersion")
     public abstract Builder modelVersion(String modelVersion);
