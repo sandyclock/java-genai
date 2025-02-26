@@ -40,6 +40,10 @@ public abstract class GenerateImagesConfig extends JsonSerializable {
   @JsonProperty("numberOfImages")
   public abstract Optional<Integer> numberOfImages();
 
+  /** Aspect ratio of the generated images. */
+  @JsonProperty("aspectRatio")
+  public abstract Optional<String> aspectRatio();
+
   /**
    * Controls how much the model adheres to the text prompt. Large values increase output and prompt
    * alignment, but may compromise image quality.
@@ -88,10 +92,6 @@ public abstract class GenerateImagesConfig extends JsonSerializable {
   @JsonProperty("addWatermark")
   public abstract Optional<Boolean> addWatermark();
 
-  /** Aspect ratio of the generated images. */
-  @JsonProperty("aspectRatio")
-  public abstract Optional<String> aspectRatio();
-
   /** Whether to use the prompt rewriting logic. */
   @JsonProperty("enhancePrompt")
   public abstract Optional<Boolean> enhancePrompt();
@@ -115,6 +115,9 @@ public abstract class GenerateImagesConfig extends JsonSerializable {
 
     @JsonProperty("numberOfImages")
     public abstract Builder numberOfImages(Integer numberOfImages);
+
+    @JsonProperty("aspectRatio")
+    public abstract Builder aspectRatio(String aspectRatio);
 
     @JsonProperty("guidanceScale")
     public abstract Builder guidanceScale(Float guidanceScale);
@@ -145,9 +148,6 @@ public abstract class GenerateImagesConfig extends JsonSerializable {
 
     @JsonProperty("addWatermark")
     public abstract Builder addWatermark(boolean addWatermark);
-
-    @JsonProperty("aspectRatio")
-    public abstract Builder aspectRatio(String aspectRatio);
 
     @JsonProperty("enhancePrompt")
     public abstract Builder enhancePrompt(boolean enhancePrompt);

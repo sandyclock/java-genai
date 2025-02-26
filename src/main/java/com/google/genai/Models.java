@@ -1548,6 +1548,13 @@ public final class Models {
           Common.getValueByPath(fromObject, new String[] {"numberOfImages"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"aspectRatio"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"parameters", "aspectRatio"},
+          Common.getValueByPath(fromObject, new String[] {"aspectRatio"}));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"guidanceScale"}) != null) {
       Common.setValueByPath(
           parentObject,
@@ -1612,13 +1619,6 @@ public final class Models {
       throw new Error("addWatermark parameter is not supported in Gemini API.");
     }
 
-    if (Common.getValueByPath(fromObject, new String[] {"aspectRatio"}) != null) {
-      Common.setValueByPath(
-          parentObject,
-          new String[] {"parameters", "aspectRatio"},
-          Common.getValueByPath(fromObject, new String[] {"aspectRatio"}));
-    }
-
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"enhancePrompt"}))) {
       throw new Error("enhancePrompt parameter is not supported in Gemini API.");
     }
@@ -1649,6 +1649,13 @@ public final class Models {
           parentObject,
           new String[] {"parameters", "sampleCount"},
           Common.getValueByPath(fromObject, new String[] {"numberOfImages"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"aspectRatio"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"parameters", "aspectRatio"},
+          Common.getValueByPath(fromObject, new String[] {"aspectRatio"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"guidanceScale"}) != null) {
@@ -1719,13 +1726,6 @@ public final class Models {
           parentObject,
           new String[] {"parameters", "addWatermark"},
           Common.getValueByPath(fromObject, new String[] {"addWatermark"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"aspectRatio"}) != null) {
-      Common.setValueByPath(
-          parentObject,
-          new String[] {"parameters", "aspectRatio"},
-          Common.getValueByPath(fromObject, new String[] {"aspectRatio"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"enhancePrompt"}) != null) {
