@@ -18,6 +18,7 @@
 
 package com.google.genai.types;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
@@ -33,7 +34,7 @@ import org.jspecify.annotations.Nullable;
 
 /** Response message for PredictionService.GenerateContent. */
 @AutoValue
-@JsonDeserialize(builder = AutoValue_GenerateContentResponse.Builder.class)
+@JsonDeserialize(builder = GenerateContentResponse.Builder.class)
 public abstract class GenerateContentResponse extends JsonSerializable {
   /** Response variations returned by the model. */
   @JsonProperty("candidates")
@@ -73,6 +74,12 @@ public abstract class GenerateContentResponse extends JsonSerializable {
   /** Builder for GenerateContentResponse. */
   @AutoValue.Builder
   public abstract static class Builder {
+    /** For internal usage. Please use `GenerateContentResponse.builder()` for instantiation. */
+    @JsonCreator
+    private static Builder create() {
+      return new AutoValue_GenerateContentResponse.Builder();
+    }
+
     @JsonProperty("candidates")
     public abstract Builder candidates(List<Candidate> candidates);
 

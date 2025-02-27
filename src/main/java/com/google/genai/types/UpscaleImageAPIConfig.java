@@ -18,6 +18,7 @@
 
 package com.google.genai.types;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.api.core.InternalApi;
@@ -33,7 +34,7 @@ import java.util.Optional;
  */
 @AutoValue
 @InternalApi
-@JsonDeserialize(builder = AutoValue_UpscaleImageAPIConfig.Builder.class)
+@JsonDeserialize(builder = UpscaleImageAPIConfig.Builder.class)
 public abstract class UpscaleImageAPIConfig extends JsonSerializable {
   /** Whether to include a reason for filtered-out images in the response. */
   @JsonProperty("includeRaiReason")
@@ -66,6 +67,12 @@ public abstract class UpscaleImageAPIConfig extends JsonSerializable {
   /** Builder for UpscaleImageAPIConfig. */
   @AutoValue.Builder
   public abstract static class Builder {
+    /** For internal usage. Please use `UpscaleImageAPIConfig.builder()` for instantiation. */
+    @JsonCreator
+    private static Builder create() {
+      return new AutoValue_UpscaleImageAPIConfig.Builder();
+    }
+
     @JsonProperty("includeRaiReason")
     public abstract Builder includeRaiReason(boolean includeRaiReason);
 

@@ -18,6 +18,7 @@
 
 package com.google.genai.types;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
@@ -26,7 +27,7 @@ import java.util.Optional;
 
 /** The config for generating an images. */
 @AutoValue
-@JsonDeserialize(builder = AutoValue_GenerateImagesConfig.Builder.class)
+@JsonDeserialize(builder = GenerateImagesConfig.Builder.class)
 public abstract class GenerateImagesConfig extends JsonSerializable {
   /** Cloud Storage URI used to store the generated images. */
   @JsonProperty("outputGcsUri")
@@ -107,6 +108,12 @@ public abstract class GenerateImagesConfig extends JsonSerializable {
   /** Builder for GenerateImagesConfig. */
   @AutoValue.Builder
   public abstract static class Builder {
+    /** For internal usage. Please use `GenerateImagesConfig.builder()` for instantiation. */
+    @JsonCreator
+    private static Builder create() {
+      return new AutoValue_GenerateImagesConfig.Builder();
+    }
+
     @JsonProperty("outputGcsUri")
     public abstract Builder outputGcsUri(String outputGcsUri);
 
