@@ -220,10 +220,9 @@ public class GenerateContentResponseTest {
             .candidates(ImmutableList.of(CANDIDATE_WITH_MIXED_PARTS))
             .build();
 
-    Exception e = assertThrows(IllegalArgumentException.class, () -> response.text());
-    assertEquals(
-        String.format("Only text parts are supported, but got %s", PART_FUNCTION_CALL_1),
-        e.getMessage());
+    String result = response.text();
+
+    assertEquals("text1", result);
   }
 
   @Test
