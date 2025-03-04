@@ -230,19 +230,8 @@ public final class Models {
 
   ObjectNode SchemaToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"minItems"}))) {
-      throw new Error("minItems parameter is not supported in Gemini API.");
-    }
-
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"example"}))) {
       throw new Error("example parameter is not supported in Gemini API.");
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"propertyOrdering"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"propertyOrdering"},
-          Common.getValueByPath(fromObject, new String[] {"propertyOrdering"}));
     }
 
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"pattern"}))) {
@@ -277,27 +266,12 @@ public final class Models {
       throw new Error("minProperties parameter is not supported in Gemini API.");
     }
 
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"maxItems"}))) {
-      throw new Error("maxItems parameter is not supported in Gemini API.");
-    }
-
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"maximum"}))) {
       throw new Error("maximum parameter is not supported in Gemini API.");
     }
 
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"nullable"}))) {
-      throw new Error("nullable parameter is not supported in Gemini API.");
-    }
-
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"maxProperties"}))) {
       throw new Error("maxProperties parameter is not supported in Gemini API.");
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"type"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"type"},
-          Common.getValueByPath(fromObject, new String[] {"type"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"description"}) != null) {
@@ -328,11 +302,39 @@ public final class Models {
           Common.getValueByPath(fromObject, new String[] {"items"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"maxItems"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"maxItems"},
+          Common.getValueByPath(fromObject, new String[] {"maxItems"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"minItems"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"minItems"},
+          Common.getValueByPath(fromObject, new String[] {"minItems"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"nullable"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"nullable"},
+          Common.getValueByPath(fromObject, new String[] {"nullable"}));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"properties"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"properties"},
           Common.getValueByPath(fromObject, new String[] {"properties"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"propertyOrdering"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"propertyOrdering"},
+          Common.getValueByPath(fromObject, new String[] {"propertyOrdering"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"required"}) != null) {
@@ -342,30 +344,23 @@ public final class Models {
           Common.getValueByPath(fromObject, new String[] {"required"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"type"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"type"},
+          Common.getValueByPath(fromObject, new String[] {"type"}));
+    }
+
     return toObject;
   }
 
   ObjectNode SchemaToVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
-    if (Common.getValueByPath(fromObject, new String[] {"minItems"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"minItems"},
-          Common.getValueByPath(fromObject, new String[] {"minItems"}));
-    }
-
     if (Common.getValueByPath(fromObject, new String[] {"example"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"example"},
           Common.getValueByPath(fromObject, new String[] {"example"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"propertyOrdering"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"propertyOrdering"},
-          Common.getValueByPath(fromObject, new String[] {"propertyOrdering"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"pattern"}) != null) {
@@ -424,13 +419,6 @@ public final class Models {
           Common.getValueByPath(fromObject, new String[] {"minProperties"}));
     }
 
-    if (Common.getValueByPath(fromObject, new String[] {"maxItems"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"maxItems"},
-          Common.getValueByPath(fromObject, new String[] {"maxItems"}));
-    }
-
     if (Common.getValueByPath(fromObject, new String[] {"maximum"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -438,25 +426,11 @@ public final class Models {
           Common.getValueByPath(fromObject, new String[] {"maximum"}));
     }
 
-    if (Common.getValueByPath(fromObject, new String[] {"nullable"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"nullable"},
-          Common.getValueByPath(fromObject, new String[] {"nullable"}));
-    }
-
     if (Common.getValueByPath(fromObject, new String[] {"maxProperties"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"maxProperties"},
           Common.getValueByPath(fromObject, new String[] {"maxProperties"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"type"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"type"},
-          Common.getValueByPath(fromObject, new String[] {"type"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"description"}) != null) {
@@ -487,6 +461,27 @@ public final class Models {
           Common.getValueByPath(fromObject, new String[] {"items"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"maxItems"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"maxItems"},
+          Common.getValueByPath(fromObject, new String[] {"maxItems"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"minItems"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"minItems"},
+          Common.getValueByPath(fromObject, new String[] {"minItems"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"nullable"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"nullable"},
+          Common.getValueByPath(fromObject, new String[] {"nullable"}));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"properties"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -494,11 +489,25 @@ public final class Models {
           Common.getValueByPath(fromObject, new String[] {"properties"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"propertyOrdering"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"propertyOrdering"},
+          Common.getValueByPath(fromObject, new String[] {"propertyOrdering"}));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"required"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"required"},
           Common.getValueByPath(fromObject, new String[] {"required"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"type"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"type"},
+          Common.getValueByPath(fromObject, new String[] {"type"}));
     }
 
     return toObject;

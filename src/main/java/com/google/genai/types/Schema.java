@@ -35,20 +35,9 @@ import java.util.Optional;
 @AutoValue
 @JsonDeserialize(builder = Schema.Builder.class)
 public abstract class Schema extends JsonSerializable {
-  /** Optional. Minimum number of the elements for Type.ARRAY. */
-  @JsonProperty("minItems")
-  public abstract Optional<Long> minItems();
-
   /** Optional. Example of the object. Will only populated when the object is the root. */
   @JsonProperty("example")
   public abstract Optional<Object> example();
-
-  /**
-   * Optional. The order of the properties. Not a standard field in open api spec. Only used to
-   * support the order of the properties.
-   */
-  @JsonProperty("propertyOrdering")
-  public abstract Optional<List<String>> propertyOrdering();
 
   /** Optional. Pattern of the Type.STRING to restrict a string to a regular expression. */
   @JsonProperty("pattern")
@@ -88,25 +77,13 @@ public abstract class Schema extends JsonSerializable {
   @JsonProperty("minProperties")
   public abstract Optional<Long> minProperties();
 
-  /** Optional. Maximum number of the elements for Type.ARRAY. */
-  @JsonProperty("maxItems")
-  public abstract Optional<Long> maxItems();
-
   /** Optional. Maximum value of the Type.INTEGER and Type.NUMBER */
   @JsonProperty("maximum")
   public abstract Optional<Double> maximum();
 
-  /** Optional. Indicates if the value may be null. */
-  @JsonProperty("nullable")
-  public abstract Optional<Boolean> nullable();
-
   /** Optional. Maximum number of the properties for Type.OBJECT. */
   @JsonProperty("maxProperties")
   public abstract Optional<Long> maxProperties();
-
-  /** Optional. The type of the data. */
-  @JsonProperty("type")
-  public abstract Optional<String> type();
 
   /** Optional. The description of the data. */
   @JsonProperty("description")
@@ -131,13 +108,36 @@ public abstract class Schema extends JsonSerializable {
   @JsonProperty("items")
   public abstract Optional<Schema> items();
 
+  /** Optional. Maximum number of the elements for Type.ARRAY. */
+  @JsonProperty("maxItems")
+  public abstract Optional<Long> maxItems();
+
+  /** Optional. Minimum number of the elements for Type.ARRAY. */
+  @JsonProperty("minItems")
+  public abstract Optional<Long> minItems();
+
+  /** Optional. Indicates if the value may be null. */
+  @JsonProperty("nullable")
+  public abstract Optional<Boolean> nullable();
+
   /** Optional. SCHEMA FIELDS FOR TYPE OBJECT Properties of Type.OBJECT. */
   @JsonProperty("properties")
   public abstract Optional<Map<String, Schema>> properties();
 
+  /**
+   * Optional. The order of the properties. Not a standard field in open api spec. Only used to
+   * support the order of the properties.
+   */
+  @JsonProperty("propertyOrdering")
+  public abstract Optional<List<String>> propertyOrdering();
+
   /** Optional. Required properties of Type.OBJECT. */
   @JsonProperty("required")
   public abstract Optional<List<String>> required();
+
+  /** Optional. The type of the data. */
+  @JsonProperty("type")
+  public abstract Optional<String> type();
 
   /** Instantiates a builder for Schema. */
   public static Builder builder() {
@@ -156,14 +156,8 @@ public abstract class Schema extends JsonSerializable {
       return new AutoValue_Schema.Builder();
     }
 
-    @JsonProperty("minItems")
-    public abstract Builder minItems(Long minItems);
-
     @JsonProperty("example")
     public abstract Builder example(Object example);
-
-    @JsonProperty("propertyOrdering")
-    public abstract Builder propertyOrdering(List<String> propertyOrdering);
 
     @JsonProperty("pattern")
     public abstract Builder pattern(String pattern);
@@ -189,20 +183,11 @@ public abstract class Schema extends JsonSerializable {
     @JsonProperty("minProperties")
     public abstract Builder minProperties(Long minProperties);
 
-    @JsonProperty("maxItems")
-    public abstract Builder maxItems(Long maxItems);
-
     @JsonProperty("maximum")
     public abstract Builder maximum(Double maximum);
 
-    @JsonProperty("nullable")
-    public abstract Builder nullable(boolean nullable);
-
     @JsonProperty("maxProperties")
     public abstract Builder maxProperties(Long maxProperties);
-
-    @JsonProperty("type")
-    public abstract Builder type(String type);
 
     @JsonProperty("description")
     public abstract Builder description(String description);
@@ -216,11 +201,26 @@ public abstract class Schema extends JsonSerializable {
     @JsonProperty("items")
     public abstract Builder items(Schema items);
 
+    @JsonProperty("maxItems")
+    public abstract Builder maxItems(Long maxItems);
+
+    @JsonProperty("minItems")
+    public abstract Builder minItems(Long minItems);
+
+    @JsonProperty("nullable")
+    public abstract Builder nullable(boolean nullable);
+
     @JsonProperty("properties")
     public abstract Builder properties(Map<String, Schema> properties);
 
+    @JsonProperty("propertyOrdering")
+    public abstract Builder propertyOrdering(List<String> propertyOrdering);
+
     @JsonProperty("required")
     public abstract Builder required(List<String> required);
+
+    @JsonProperty("type")
+    public abstract Builder type(String type);
 
     public abstract Schema build();
   }
