@@ -1543,11 +1543,8 @@ public final class Models {
       throw new Error("outputGcsUri parameter is not supported in Gemini API.");
     }
 
-    if (Common.getValueByPath(fromObject, new String[] {"negativePrompt"}) != null) {
-      Common.setValueByPath(
-          parentObject,
-          new String[] {"parameters", "negativePrompt"},
-          Common.getValueByPath(fromObject, new String[] {"negativePrompt"}));
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"negativePrompt"}))) {
+      throw new Error("negativePrompt parameter is not supported in Gemini API.");
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"numberOfImages"}) != null) {
