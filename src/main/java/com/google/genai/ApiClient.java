@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.common.collect.ImmutableMap;
 import com.google.genai.types.HttpOptions;
-import com.google.genai.types.HttpOptions.Builder;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
@@ -138,7 +137,7 @@ abstract class ApiClient {
   public abstract ApiResponse post(String path, String requestJson) throws IOException;
 
   /** Returns the library version. */
-  String libraryVersion() {
+  static String libraryVersion() {
     // TODO: Automate revisions to the SDK library version.
     String libraryLabel = "google-genai-sdk/0.1.0";
     String languageLabel = "gl-java/" + System.getProperty("java.version");
@@ -171,7 +170,7 @@ abstract class ApiClient {
   }
 
   private void applyHttpOptions(HttpOptions httpOptionsToApply) {
-    HttpOptions.Builder mergedHttpOptionsBuilder = HttpOptions.builder();
+    HttpOptions.Builder mergedHttpOptionsBuilder = this.httpOptions.toBuilder();
     if (httpOptionsToApply.baseUrl().isPresent()) {
       mergedHttpOptionsBuilder.baseUrl(httpOptionsToApply.baseUrl().get());
     }
@@ -192,7 +191,7 @@ abstract class ApiClient {
     this.httpOptions = mergedHttpOptionsBuilder.build();
   }
 
-  private HttpOptions defaultHttpOptions(Boolean isVertexAI, Optional<String> location) {
+  static HttpOptions defaultHttpOptions(Boolean isVertexAI, Optional<String> location) {
     ImmutableMap.Builder<String, String> defaultHeaders = ImmutableMap.builder();
     defaultHeaders.put("Content-Type", "application/json");
     defaultHeaders.put("user-agent", libraryVersion());

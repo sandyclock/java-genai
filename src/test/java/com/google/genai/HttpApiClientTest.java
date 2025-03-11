@@ -30,9 +30,9 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.genai.types.Candidate;
 import com.google.genai.types.Content;
-import com.google.genai.types.GenerateContentConfig;
 import com.google.genai.types.GenerateContentResponse;
 import com.google.genai.types.HttpOptions;
 import com.google.genai.types.Part;
@@ -44,6 +44,99 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class HttpApiClientTest {
+
+  private static final String API_KEY = "api-key";
+  private static final String PROJECT = "project";
+  private static final String LOCATION = "location";
+  private static final HttpOptions defaultHttpOptionsMLDev =
+      HttpApiClient.defaultHttpOptions(false, Optional.empty());
+  private static final HttpOptions defaultHttpOptionsVertex =
+      HttpApiClient.defaultHttpOptions(true, Optional.of(LOCATION));
+
+  @Test
+  public void testInitHttpClientMldev() throws Exception {
+    HttpOptions httpOptions =
+        HttpOptions.builder()
+            .baseUrl("https://generativelanguage.googleapis.com/")
+            .apiVersion("v1beta")
+            .headers(ImmutableMap.of("test", "application/json"))
+            .timeout(5000)
+            .build();
+    HttpApiClient client = new HttpApiClient(Optional.of(API_KEY), Optional.of(httpOptions));
+
+    assertEquals(API_KEY, client.apiKey());
+    assertFalse(client.isVertexAI());
+    assertEquals(httpOptions.baseUrl(), client.httpOptions.baseUrl());
+    assertEquals(httpOptions.apiVersion(), client.httpOptions.apiVersion());
+    assertEquals(httpOptions.timeout(), client.httpOptions.timeout());
+    assertTrue(
+        client
+            .httpOptions
+            .headers()
+            .orElse(ImmutableMap.of())
+            .entrySet()
+            .containsAll(httpOptions.headers().orElse(ImmutableMap.of()).entrySet()));
+  }
+
+  @Test
+  public void testInitHttpClientVertex() throws Exception {
+    HttpOptions httpOptions =
+        HttpOptions.builder()
+            .baseUrl("https://aiplatform.googleapis.com/")
+            .apiVersion("v1beta1")
+            .headers(ImmutableMap.of("test", "header"))
+            .timeout(5000)
+            .build();
+    HttpApiClient client =
+        new HttpApiClient(
+            Optional.of(PROJECT),
+            Optional.of(LOCATION),
+            Optional.empty(),
+            Optional.of(httpOptions));
+
+    assertEquals(PROJECT, client.project());
+    assertEquals(LOCATION, client.location());
+    assertTrue(client.isVertexAI());
+    assertEquals(httpOptions.baseUrl(), client.httpOptions.baseUrl());
+    assertEquals(httpOptions.apiVersion(), client.httpOptions.apiVersion());
+    assertEquals(httpOptions.timeout(), client.httpOptions.timeout());
+    assertTrue(
+        client
+            .httpOptions
+            .headers()
+            .orElse(ImmutableMap.of())
+            .entrySet()
+            .containsAll(httpOptions.headers().orElse(ImmutableMap.of()).entrySet()));
+  }
+
+  @Test
+  public void testInitHttpClientMldevWithPartialHttpOptions() throws Exception {
+    HttpOptions httpOptions = HttpOptions.builder().apiVersion("v100").timeout(5000).build();
+    HttpApiClient client = new HttpApiClient(Optional.of("api-key"), Optional.of(httpOptions));
+
+    assertEquals(httpOptions.apiVersion(), client.httpOptions.apiVersion());
+    assertEquals(httpOptions.timeout(), client.httpOptions.timeout());
+    // Default values for baseUrl and apiVersion are used.
+    assertEquals(defaultHttpOptionsMLDev.baseUrl(), client.httpOptions.baseUrl());
+    assertEquals(defaultHttpOptionsMLDev.headers(), client.httpOptions.headers());
+  }
+
+  @Test
+  public void testInitHttpClientVertexWithPartialHttpOptions() throws Exception {
+    HttpOptions httpOptions = HttpOptions.builder().apiVersion("v100").timeout(5000).build();
+    HttpApiClient client =
+        new HttpApiClient(
+            Optional.of(PROJECT),
+            Optional.of(LOCATION),
+            Optional.empty(),
+            Optional.of(httpOptions));
+
+    assertEquals(httpOptions.apiVersion(), client.httpOptions.apiVersion());
+    assertEquals(httpOptions.timeout(), client.httpOptions.timeout());
+    // Default values for baseUrl and apiVersion are used.
+    assertEquals(defaultHttpOptionsVertex.baseUrl(), client.httpOptions.baseUrl());
+    assertEquals(defaultHttpOptionsVertex.headers(), client.httpOptions.headers());
+  }
 
   @Test
   public void testHttpClientMLDevTimeout() throws Exception {
