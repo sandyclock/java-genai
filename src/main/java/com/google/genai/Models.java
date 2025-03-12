@@ -2826,8 +2826,8 @@ public final class Models {
       body = UpscaleImageAPIParametersToVertex(this.apiClient, parameterNode, null);
       path = Common.formatMap("{model}:predict", body.get("_url"));
     } else {
-      body = UpscaleImageAPIParametersToMldev(this.apiClient, parameterNode, null);
-      path = Common.formatMap("None", body.get("_url"));
+      throw new UnsupportedOperationException(
+          "This method is only supported by the Gemini Developer API.");
     }
     body.remove("_url");
     // TODO: Remove the hack that removes config.
