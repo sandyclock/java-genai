@@ -35,7 +35,7 @@ public abstract class SearchEntryPoint extends JsonSerializable {
 
   /** Optional. Base64 encoded JSON representing array of tuple. */
   @JsonProperty("sdkBlob")
-  public abstract Optional<String> sdkBlob();
+  public abstract Optional<byte[]> sdkBlob();
 
   /** Instantiates a builder for SearchEntryPoint. */
   public static Builder builder() {
@@ -58,7 +58,7 @@ public abstract class SearchEntryPoint extends JsonSerializable {
     public abstract Builder renderedContent(String renderedContent);
 
     @JsonProperty("sdkBlob")
-    public abstract Builder sdkBlob(String sdkBlob);
+    public abstract Builder sdkBlob(byte[] sdkBlob);
 
     public abstract SearchEntryPoint build();
   }

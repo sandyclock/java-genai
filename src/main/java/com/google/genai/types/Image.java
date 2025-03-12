@@ -41,7 +41,7 @@ public abstract class Image extends JsonSerializable {
    * not both.
    */
   @JsonProperty("imageBytes")
-  public abstract Optional<String> imageBytes();
+  public abstract Optional<byte[]> imageBytes();
 
   /** The MIME type of the image. */
   @JsonProperty("mimeType")
@@ -68,7 +68,7 @@ public abstract class Image extends JsonSerializable {
     public abstract Builder gcsUri(String gcsUri);
 
     @JsonProperty("imageBytes")
-    public abstract Builder imageBytes(String imageBytes);
+    public abstract Builder imageBytes(byte[] imageBytes);
 
     @JsonProperty("mimeType")
     public abstract Builder mimeType(String mimeType);

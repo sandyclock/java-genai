@@ -31,7 +31,7 @@ import java.util.Optional;
 public abstract class Blob extends JsonSerializable {
   /** Required. Raw bytes. */
   @JsonProperty("data")
-  public abstract Optional<String> data();
+  public abstract Optional<byte[]> data();
 
   /** Required. The IANA standard MIME type of the source data. */
   @JsonProperty("mimeType")
@@ -55,7 +55,7 @@ public abstract class Blob extends JsonSerializable {
     }
 
     @JsonProperty("data")
-    public abstract Builder data(String data);
+    public abstract Builder data(byte[] data);
 
     @JsonProperty("mimeType")
     public abstract Builder mimeType(String mimeType);
