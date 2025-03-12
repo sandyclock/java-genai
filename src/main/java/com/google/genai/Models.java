@@ -238,16 +238,8 @@ public final class Models {
       throw new Error("pattern parameter is not supported in Gemini API.");
     }
 
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"minimum"}))) {
-      throw new Error("minimum parameter is not supported in Gemini API.");
-    }
-
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"default"}))) {
       throw new Error("default parameter is not supported in Gemini API.");
-    }
-
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"anyOf"}))) {
-      throw new Error("anyOf parameter is not supported in Gemini API.");
     }
 
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"maxLength"}))) {
@@ -266,12 +258,15 @@ public final class Models {
       throw new Error("minProperties parameter is not supported in Gemini API.");
     }
 
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"maximum"}))) {
-      throw new Error("maximum parameter is not supported in Gemini API.");
-    }
-
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"maxProperties"}))) {
       throw new Error("maxProperties parameter is not supported in Gemini API.");
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"anyOf"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"anyOf"},
+          Common.getValueByPath(fromObject, new String[] {"anyOf"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"description"}) != null) {
@@ -309,11 +304,25 @@ public final class Models {
           Common.getValueByPath(fromObject, new String[] {"maxItems"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"maximum"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"maximum"},
+          Common.getValueByPath(fromObject, new String[] {"maximum"}));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"minItems"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"minItems"},
           Common.getValueByPath(fromObject, new String[] {"minItems"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"minimum"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"minimum"},
+          Common.getValueByPath(fromObject, new String[] {"minimum"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"nullable"}) != null) {
@@ -370,25 +379,11 @@ public final class Models {
           Common.getValueByPath(fromObject, new String[] {"pattern"}));
     }
 
-    if (Common.getValueByPath(fromObject, new String[] {"minimum"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"minimum"},
-          Common.getValueByPath(fromObject, new String[] {"minimum"}));
-    }
-
     if (Common.getValueByPath(fromObject, new String[] {"default"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"default"},
           Common.getValueByPath(fromObject, new String[] {"default"}));
-    }
-
-    if (Common.getValueByPath(fromObject, new String[] {"anyOf"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"anyOf"},
-          Common.getValueByPath(fromObject, new String[] {"anyOf"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"maxLength"}) != null) {
@@ -419,18 +414,18 @@ public final class Models {
           Common.getValueByPath(fromObject, new String[] {"minProperties"}));
     }
 
-    if (Common.getValueByPath(fromObject, new String[] {"maximum"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"maximum"},
-          Common.getValueByPath(fromObject, new String[] {"maximum"}));
-    }
-
     if (Common.getValueByPath(fromObject, new String[] {"maxProperties"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"maxProperties"},
           Common.getValueByPath(fromObject, new String[] {"maxProperties"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"anyOf"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"anyOf"},
+          Common.getValueByPath(fromObject, new String[] {"anyOf"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"description"}) != null) {
@@ -468,11 +463,25 @@ public final class Models {
           Common.getValueByPath(fromObject, new String[] {"maxItems"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"maximum"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"maximum"},
+          Common.getValueByPath(fromObject, new String[] {"maximum"}));
+    }
+
     if (Common.getValueByPath(fromObject, new String[] {"minItems"}) != null) {
       Common.setValueByPath(
           toObject,
           new String[] {"minItems"},
           Common.getValueByPath(fromObject, new String[] {"minItems"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"minimum"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"minimum"},
+          Common.getValueByPath(fromObject, new String[] {"minimum"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"nullable"}) != null) {

@@ -43,23 +43,9 @@ public abstract class Schema extends JsonSerializable {
   @JsonProperty("pattern")
   public abstract Optional<String> pattern();
 
-  /**
-   * Optional. SCHEMA FIELDS FOR TYPE INTEGER and NUMBER Minimum value of the Type.INTEGER and
-   * Type.NUMBER
-   */
-  @JsonProperty("minimum")
-  public abstract Optional<Double> minimum();
-
   /** Optional. Default value of the data. */
   @JsonProperty("default")
   public abstract Optional<Object> default_();
-
-  /**
-   * Optional. The value should be validated against any (one or more) of the subschemas in the
-   * list.
-   */
-  @JsonProperty("anyOf")
-  public abstract Optional<List<Schema>> anyOf();
 
   /** Optional. Maximum length of the Type.STRING */
   @JsonProperty("maxLength")
@@ -77,13 +63,16 @@ public abstract class Schema extends JsonSerializable {
   @JsonProperty("minProperties")
   public abstract Optional<Long> minProperties();
 
-  /** Optional. Maximum value of the Type.INTEGER and Type.NUMBER */
-  @JsonProperty("maximum")
-  public abstract Optional<Double> maximum();
-
   /** Optional. Maximum number of the properties for Type.OBJECT. */
   @JsonProperty("maxProperties")
   public abstract Optional<Long> maxProperties();
+
+  /**
+   * Optional. The value should be validated against any (one or more) of the subschemas in the
+   * list.
+   */
+  @JsonProperty("anyOf")
+  public abstract Optional<List<Schema>> anyOf();
 
   /** Optional. The description of the data. */
   @JsonProperty("description")
@@ -112,9 +101,20 @@ public abstract class Schema extends JsonSerializable {
   @JsonProperty("maxItems")
   public abstract Optional<Long> maxItems();
 
+  /** Optional. Maximum value of the Type.INTEGER and Type.NUMBER */
+  @JsonProperty("maximum")
+  public abstract Optional<Double> maximum();
+
   /** Optional. Minimum number of the elements for Type.ARRAY. */
   @JsonProperty("minItems")
   public abstract Optional<Long> minItems();
+
+  /**
+   * Optional. SCHEMA FIELDS FOR TYPE INTEGER and NUMBER Minimum value of the Type.INTEGER and
+   * Type.NUMBER
+   */
+  @JsonProperty("minimum")
+  public abstract Optional<Double> minimum();
 
   /** Optional. Indicates if the value may be null. */
   @JsonProperty("nullable")
@@ -162,14 +162,8 @@ public abstract class Schema extends JsonSerializable {
     @JsonProperty("pattern")
     public abstract Builder pattern(String pattern);
 
-    @JsonProperty("minimum")
-    public abstract Builder minimum(Double minimum);
-
     @JsonProperty("default")
     public abstract Builder default_(Object default_);
-
-    @JsonProperty("anyOf")
-    public abstract Builder anyOf(List<Schema> anyOf);
 
     @JsonProperty("maxLength")
     public abstract Builder maxLength(Long maxLength);
@@ -183,11 +177,11 @@ public abstract class Schema extends JsonSerializable {
     @JsonProperty("minProperties")
     public abstract Builder minProperties(Long minProperties);
 
-    @JsonProperty("maximum")
-    public abstract Builder maximum(Double maximum);
-
     @JsonProperty("maxProperties")
     public abstract Builder maxProperties(Long maxProperties);
+
+    @JsonProperty("anyOf")
+    public abstract Builder anyOf(List<Schema> anyOf);
 
     @JsonProperty("description")
     public abstract Builder description(String description);
@@ -204,8 +198,14 @@ public abstract class Schema extends JsonSerializable {
     @JsonProperty("maxItems")
     public abstract Builder maxItems(Long maxItems);
 
+    @JsonProperty("maximum")
+    public abstract Builder maximum(Double maximum);
+
     @JsonProperty("minItems")
     public abstract Builder minItems(Long minItems);
+
+    @JsonProperty("minimum")
+    public abstract Builder minimum(Double minimum);
 
     @JsonProperty("nullable")
     public abstract Builder nullable(boolean nullable);
