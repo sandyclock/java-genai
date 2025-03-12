@@ -103,7 +103,7 @@ abstract class ApiClient {
     }
 
     try {
-      this.credentials = Optional.of(credentials.orElse(GoogleCredentials.getApplicationDefault()));
+      this.credentials = Optional.of(credentials.orElse(defaultCredentials()));
     } catch (IOException e) {
       throw new IllegalArgumentException(
           "Failed to get application default credentials, please explicitly provide credentials.",
@@ -212,5 +212,10 @@ abstract class ApiClient {
           .apiVersion("v1beta");
     }
     return defaultHttpOptionsBuilder.build();
+  }
+
+  GoogleCredentials defaultCredentials() throws IOException {
+    return GoogleCredentials.getApplicationDefault()
+        .createScoped("https://www.googleapis.com/auth/cloud-platform");
   }
 }

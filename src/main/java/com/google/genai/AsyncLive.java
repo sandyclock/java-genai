@@ -116,7 +116,7 @@ public class AsyncLive {
     if (apiClient.isVertexAI()) {
       try {
         GoogleCredentials credentials =
-            apiClient.credentials.orElse(GoogleCredentials.getApplicationDefault());
+            apiClient.credentials.orElse(apiClient.defaultCredentials());
         credentials.refreshIfExpired();
         headers.put("Authorization", "Bearer " + credentials.getAccessToken().getTokenValue());
       } catch (IOException e) {
