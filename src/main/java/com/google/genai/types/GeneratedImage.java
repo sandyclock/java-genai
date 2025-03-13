@@ -37,6 +37,10 @@ public abstract class GeneratedImage extends JsonSerializable {
   @JsonProperty("raiFilteredReason")
   public abstract Optional<String> raiFilteredReason();
 
+  /** Safety attributes of the image. Lists of RAI categories and their scores of each content. */
+  @JsonProperty("safetyAttributes")
+  public abstract Optional<SafetyAttributes> safetyAttributes();
+
   /** The rewritten prompt used for the image generation if the prompt enhancer is enabled. */
   @JsonProperty("enhancedPrompt")
   public abstract Optional<String> enhancedPrompt();
@@ -63,6 +67,9 @@ public abstract class GeneratedImage extends JsonSerializable {
 
     @JsonProperty("raiFilteredReason")
     public abstract Builder raiFilteredReason(String raiFilteredReason);
+
+    @JsonProperty("safetyAttributes")
+    public abstract Builder safetyAttributes(SafetyAttributes safetyAttributes);
 
     @JsonProperty("enhancedPrompt")
     public abstract Builder enhancedPrompt(String enhancedPrompt);

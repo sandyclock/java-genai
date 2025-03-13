@@ -55,11 +55,18 @@ public class GenerateImages {
             .build();
 
     GenerateImagesConfig generateImagesConfig =
-        GenerateImagesConfig.builder().numberOfImages(1).outputMimeType("image/jpeg").build();
+        GenerateImagesConfig.builder()
+            .numberOfImages(1)
+            .outputMimeType("image/jpeg")
+            .includeSafetyAttributes(true)
+            .build();
 
     GenerateImagesResponse generatedImagesResponse =
         client.models.generateImages(
             "imagen-3.0-generate-001", "Robot holding a red skateboard", generateImagesConfig);
+
+    System.out.println(
+        "Generated " + (generatedImagesResponse.generatedImages().get().size() - 1) + " images.");
 
     System.out.println(
         "Image:\n"
@@ -71,5 +78,9 @@ public class GenerateImages {
                 .get()
                 .imageBytes()
                 .get());
+
+    System.out.println(
+        "Prompt Safety Attributes:\n"
+            + generatedImagesResponse.generatedImages().get().get(-1).safetyAttributes().get());
   }
 }

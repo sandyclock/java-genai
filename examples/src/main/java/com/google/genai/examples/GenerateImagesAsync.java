@@ -56,7 +56,11 @@ public class GenerateImagesAsync {
             .build();
 
     GenerateImagesConfig generateImagesConfig =
-        GenerateImagesConfig.builder().numberOfImages(1).outputMimeType("image/jpeg").build();
+        GenerateImagesConfig.builder()
+            .numberOfImages(1)
+            .outputMimeType("image/jpeg")
+            .includeSafetyAttributes(true)
+            .build();
 
     CompletableFuture<GenerateImagesResponse> generateImagesResponseFuture =
         client.async.models.generateImages(
@@ -64,10 +68,31 @@ public class GenerateImagesAsync {
 
     generateImagesResponseFuture
         .thenAccept(
-            response -> {
+            generatedImagesResponse -> {
+              System.out.println(
+                  "Generated "
+                      + (generatedImagesResponse.generatedImages().get().size() - 1)
+                      + " images.");
+
               System.out.println(
                   "Image:\n"
-                      + response.generatedImages().get().get(0).image().get().imageBytes().get());
+                      + generatedImagesResponse
+                          .generatedImages()
+                          .get()
+                          .get(0)
+                          .image()
+                          .get()
+                          .imageBytes()
+                          .get());
+
+              System.out.println(
+                  "Prompt Safety Attributes:\n"
+                      + generatedImagesResponse
+                          .generatedImages()
+                          .get()
+                          .get(-1)
+                          .safetyAttributes()
+                          .get());
             })
         .join();
   }

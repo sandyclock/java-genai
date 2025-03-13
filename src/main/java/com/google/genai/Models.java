@@ -2539,6 +2539,48 @@ public final class Models {
     return toObject;
   }
 
+  ObjectNode SafetyAttributesFromMldev(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"safetyAttributes", "categories"})
+        != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"categories"},
+          Common.getValueByPath(fromObject, new String[] {"safetyAttributes", "categories"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"safetyAttributes", "scores"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"scores"},
+          Common.getValueByPath(fromObject, new String[] {"safetyAttributes", "scores"}));
+    }
+
+    return toObject;
+  }
+
+  ObjectNode SafetyAttributesFromVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"safetyAttributes", "categories"})
+        != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"categories"},
+          Common.getValueByPath(fromObject, new String[] {"safetyAttributes", "categories"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"safetyAttributes", "scores"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"scores"},
+          Common.getValueByPath(fromObject, new String[] {"safetyAttributes", "scores"}));
+    }
+
+    return toObject;
+  }
+
   ObjectNode GeneratedImageFromMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -2558,6 +2600,17 @@ public final class Models {
           toObject,
           new String[] {"raiFilteredReason"},
           Common.getValueByPath(fromObject, new String[] {"raiFilteredReason"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"_self"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"safetyAttributes"},
+          SafetyAttributesFromMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"_self"})),
+              toObject));
     }
 
     return toObject;
@@ -2582,6 +2635,17 @@ public final class Models {
           toObject,
           new String[] {"raiFilteredReason"},
           Common.getValueByPath(fromObject, new String[] {"raiFilteredReason"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"_self"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"safetyAttributes"},
+          SafetyAttributesFromVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"_self"})),
+              toObject));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"prompt"}) != null) {
