@@ -73,7 +73,7 @@ public final class TableTest {
 
   private static Collection<DynamicTest> createTableTests(String path, Client client)
       throws IOException {
-    String suffix = client.isVertexAI() ? "vertex" : "mldev";
+    String suffix = client.vertexAI() ? "vertex" : "mldev";
 
     // Reads JSON.
     String data = Files.readString(Paths.get(path));
@@ -210,10 +210,10 @@ public final class TableTest {
                     // TODO(jayceeli): Check if the error message is expected, once we update the
                     // error
                     // messages from the ApiClient.
-                    if (exceptionIfMldev.isPresent() && !client.isVertexAI()) {
+                    if (exceptionIfMldev.isPresent() && !client.vertexAI()) {
                       assumeTrue(false, "Skipped: test case is expected to fail in MLDev");
                       System.out.println("    === Skipped: test case is expected to fail in MLDev");
-                    } else if (exceptionIfVertex.isPresent() && client.isVertexAI()) {
+                    } else if (exceptionIfVertex.isPresent() && client.vertexAI()) {
                       assumeTrue(false, "Skipped: test case is expected to fail in Vertex AI");
                       System.out.println(
                           "    === Skipped: test case is expected to fail in Vertex AI");

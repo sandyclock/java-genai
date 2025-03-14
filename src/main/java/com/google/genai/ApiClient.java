@@ -59,7 +59,7 @@ abstract class ApiClient {
     this.credentials = Optional.empty();
     this.vertexAI = false;
 
-    this.httpOptions = defaultHttpOptions(/* isVertexAI= */ false, this.location);
+    this.httpOptions = defaultHttpOptions(/* vertexAI= */ false, this.location);
 
     if (customHttpOptions.isPresent()) {
       applyHttpOptions(customHttpOptions.get());
@@ -110,7 +110,7 @@ abstract class ApiClient {
           e);
     }
 
-    this.httpOptions = defaultHttpOptions(/* isVertexAI= */ true, this.location);
+    this.httpOptions = defaultHttpOptions(/* vertexAI= */ true, this.location);
 
     if (customHttpOptions.isPresent()) {
       applyHttpOptions(customHttpOptions.get());
@@ -145,7 +145,7 @@ abstract class ApiClient {
   }
 
   /** Returns whether the client is using Vertex AI APIs. */
-  public boolean isVertexAI() {
+  public boolean vertexAI() {
     return vertexAI;
   }
 
@@ -191,7 +191,7 @@ abstract class ApiClient {
     this.httpOptions = mergedHttpOptionsBuilder.build();
   }
 
-  static HttpOptions defaultHttpOptions(Boolean isVertexAI, Optional<String> location) {
+  static HttpOptions defaultHttpOptions(boolean vertexAI, Optional<String> location) {
     ImmutableMap.Builder<String, String> defaultHeaders = ImmutableMap.builder();
     defaultHeaders.put("Content-Type", "application/json");
     defaultHeaders.put("user-agent", libraryVersion());
@@ -200,11 +200,11 @@ abstract class ApiClient {
     HttpOptions.Builder defaultHttpOptionsBuilder =
         HttpOptions.builder().headers(defaultHeaders.build());
 
-    if (isVertexAI && location.isPresent()) {
+    if (vertexAI && location.isPresent()) {
       defaultHttpOptionsBuilder
           .baseUrl(String.format("https://%s-aiplatform.googleapis.com/", location.get()))
           .apiVersion("v1beta1");
-    } else if (isVertexAI && !location.isPresent()) {
+    } else if (vertexAI && location.isEmpty()) {
       throw new IllegalArgumentException("Location must be provided for Vertex AI APIs.");
     } else {
       defaultHttpOptionsBuilder

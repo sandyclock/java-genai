@@ -90,7 +90,7 @@ public class AsyncLive {
                   baseUri.getFragment())
               .toString();
 
-      if (!apiClient.isVertexAI()) {
+      if (!apiClient.vertexAI()) {
         return new URI(
             String.format(
                 "%sws/google.ai.generativelanguage.%s.GenerativeService.BidiGenerateContent?key=%s",
@@ -113,7 +113,7 @@ public class AsyncLive {
     Map<String, String> headers = new HashMap<>();
     apiClient.httpOptions.headers().ifPresent(headers::putAll);
 
-    if (apiClient.isVertexAI()) {
+    if (apiClient.vertexAI()) {
       try {
         GoogleCredentials credentials =
             apiClient.credentials.orElse(apiClient.defaultCredentials());
@@ -131,7 +131,7 @@ public class AsyncLive {
     LiveClientSetup.Builder setupBuilder = LiveClientSetup.builder();
 
     String transformedModel = Transformers.tModel(apiClient, model);
-    if (apiClient.isVertexAI() && transformedModel.startsWith("publishers/")) {
+    if (apiClient.vertexAI() && transformedModel.startsWith("publishers/")) {
       transformedModel =
           String.format(
               "projects/%s/locations/%s/%s",

@@ -52,7 +52,7 @@ final class Transformers {
     } else {
       throw new IllegalArgumentException("Unsupported model type: " + origin.getClass());
     }
-    if (apiClient.isVertexAI()) {
+    if (apiClient.vertexAI()) {
       if (model.startsWith("publishers/")
           || model.startsWith("projects/")
           || model.startsWith("models/")) {
@@ -215,7 +215,7 @@ final class Transformers {
   /** Formats a resource name given the resource name and resource prefix. */
   private static String getResourceName(
       ApiClient apiClient, String resourceName, String resourcePrefix) {
-    if (apiClient.isVertexAI()) {
+    if (apiClient.vertexAI()) {
       if (resourceName.startsWith("projects/")) {
         return resourceName;
       } else if (resourceName.startsWith("locations/")) {

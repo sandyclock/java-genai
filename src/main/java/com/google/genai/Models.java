@@ -2757,7 +2757,7 @@ public final class Models {
 
     ObjectNode body;
     String path;
-    if (this.apiClient.isVertexAI()) {
+    if (this.apiClient.vertexAI()) {
       body = GenerateContentParametersToVertex(this.apiClient, parameterNode, null);
       path = Common.formatMap("{model}:generateContent", body.get("_url"));
     } else {
@@ -2772,7 +2772,7 @@ public final class Models {
       HttpEntity entity = response.getEntity();
       String responseString = EntityUtils.toString(entity);
       JsonNode responseNode = JsonSerializable.objectMapper.readTree(responseString);
-      if (this.apiClient.isVertexAI()) {
+      if (this.apiClient.vertexAI()) {
         responseNode = GenerateContentResponseFromVertex(this.apiClient, responseNode, null);
       } else {
         responseNode = GenerateContentResponseFromMldev(this.apiClient, responseNode, null);
@@ -2800,7 +2800,7 @@ public final class Models {
 
     ObjectNode body;
     String path;
-    if (this.apiClient.isVertexAI()) {
+    if (this.apiClient.vertexAI()) {
       body = GenerateContentParametersToVertex(this.apiClient, parameterNode, null);
       path = Common.formatMap("{model}:streamGenerateContent?alt=sse", body.get("_url"));
     } else {
@@ -2813,7 +2813,7 @@ public final class Models {
 
     ApiResponse response = this.apiClient.post(path, JsonSerializable.toJsonString(body));
     String converterName;
-    if (this.apiClient.isVertexAI()) {
+    if (this.apiClient.vertexAI()) {
       converterName = "GenerateContentResponseFromVertex";
     } else {
       converterName = "GenerateContentResponseFromMldev";
@@ -2840,7 +2840,7 @@ public final class Models {
 
     ObjectNode body;
     String path;
-    if (this.apiClient.isVertexAI()) {
+    if (this.apiClient.vertexAI()) {
       body = GenerateImagesParametersToVertex(this.apiClient, parameterNode, null);
       path = Common.formatMap("{model}:predict", body.get("_url"));
     } else {
@@ -2855,7 +2855,7 @@ public final class Models {
       HttpEntity entity = response.getEntity();
       String responseString = EntityUtils.toString(entity);
       JsonNode responseNode = JsonSerializable.objectMapper.readTree(responseString);
-      if (this.apiClient.isVertexAI()) {
+      if (this.apiClient.vertexAI()) {
         responseNode = GenerateImagesResponseFromVertex(this.apiClient, responseNode, null);
       } else {
         responseNode = GenerateImagesResponseFromMldev(this.apiClient, responseNode, null);
@@ -2886,7 +2886,7 @@ public final class Models {
 
     ObjectNode body;
     String path;
-    if (this.apiClient.isVertexAI()) {
+    if (this.apiClient.vertexAI()) {
       body = UpscaleImageAPIParametersToVertex(this.apiClient, parameterNode, null);
       path = Common.formatMap("{model}:predict", body.get("_url"));
     } else {
@@ -2901,7 +2901,7 @@ public final class Models {
       HttpEntity entity = response.getEntity();
       String responseString = EntityUtils.toString(entity);
       JsonNode responseNode = JsonSerializable.objectMapper.readTree(responseString);
-      if (this.apiClient.isVertexAI()) {
+      if (this.apiClient.vertexAI()) {
         responseNode = UpscaleImageResponseFromVertex(this.apiClient, responseNode, null);
       } else {
         responseNode = UpscaleImageResponseFromMldev(this.apiClient, responseNode, null);

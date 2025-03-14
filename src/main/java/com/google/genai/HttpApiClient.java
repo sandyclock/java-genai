@@ -44,8 +44,9 @@ final class HttpApiClient extends ApiClient {
   }
 
   /** Sends a Http Post request given the path and request json string. */
+  @Override
   public ApiResponse post(String path, String requestJson) throws IOException {
-    if (this.isVertexAI() && !path.startsWith("projects/")) {
+    if (this.vertexAI() && !path.startsWith("projects/")) {
       path =
           String.format("projects/%s/locations/%s/", this.project.get(), this.location.get())
               + path;

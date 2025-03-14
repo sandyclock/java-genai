@@ -65,7 +65,7 @@ public class HttpApiClientTest {
     HttpApiClient client = new HttpApiClient(Optional.of(API_KEY), Optional.of(httpOptions));
 
     assertEquals(API_KEY, client.apiKey());
-    assertFalse(client.isVertexAI());
+    assertFalse(client.vertexAI());
     assertEquals(httpOptions.baseUrl(), client.httpOptions.baseUrl());
     assertEquals(httpOptions.apiVersion(), client.httpOptions.apiVersion());
     assertEquals(httpOptions.timeout(), client.httpOptions.timeout());
@@ -96,7 +96,7 @@ public class HttpApiClientTest {
 
     assertEquals(PROJECT, client.project());
     assertEquals(LOCATION, client.location());
-    assertTrue(client.isVertexAI());
+    assertTrue(client.vertexAI());
     assertEquals(httpOptions.baseUrl(), client.httpOptions.baseUrl());
     assertEquals(httpOptions.apiVersion(), client.httpOptions.apiVersion());
     assertEquals(httpOptions.timeout(), client.httpOptions.timeout());
@@ -152,7 +152,7 @@ public class HttpApiClientTest {
     assertEquals(5000, config.getConnectionRequestTimeout());
     assertEquals(5000, config.getSocketTimeout());
     assertEquals("api-key", client.apiKey());
-    assertFalse(client.isVertexAI());
+    assertFalse(client.vertexAI());
   }
 
   @Test
@@ -175,7 +175,7 @@ public class HttpApiClientTest {
     assertEquals(5000, config.getSocketTimeout());
     assertEquals("project", client.project());
     assertEquals("location", client.location());
-    assertTrue(client.isVertexAI());
+    assertTrue(client.vertexAI());
   }
 
   @Test
@@ -214,7 +214,7 @@ public class HttpApiClientTest {
     assertEquals(-1, config.getSocketTimeout());
     assertEquals("project", client.project());
     assertEquals("location", client.location());
-    assertTrue(client.isVertexAI());
+    assertTrue(client.vertexAI());
   }
 
   private RequestConfig getRequestConfig(CloseableHttpClient client) throws Exception {

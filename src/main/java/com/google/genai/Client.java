@@ -216,8 +216,8 @@ public final class Client implements AutoCloseable {
   }
 
   /** Returns whether the client is using Vertex AI APIs. */
-  public boolean isVertexAI() {
-    return apiClient.isVertexAI();
+  public boolean vertexAI() {
+    return apiClient.vertexAI();
   }
 
   /** Returns the project ID for Vertex AI APIs. */
