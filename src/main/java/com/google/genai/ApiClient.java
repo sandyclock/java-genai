@@ -202,7 +202,10 @@ abstract class ApiClient {
 
     if (vertexAI && location.isPresent()) {
       defaultHttpOptionsBuilder
-          .baseUrl(String.format("https://%s-aiplatform.googleapis.com/", location.get()))
+          .baseUrl(
+              location.get().equalsIgnoreCase("global")
+                  ? "https://aiplatform.googleapis.com/"
+                  : String.format("https://%s-aiplatform.googleapis.com/", location.get()))
           .apiVersion("v1beta1");
     } else if (vertexAI && location.isEmpty()) {
       throw new IllegalArgumentException("Location must be provided for Vertex AI APIs.");
