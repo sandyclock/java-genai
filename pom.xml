@@ -252,9 +252,12 @@
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>3.11.2</version>
           <configuration>
-            <doclint>none</doclint>
+            <doclint>html</doclint>
             <nohelp>true</nohelp>
             <outputDirectory>${project.build.directory}/javadoc</outputDirectory>
+            <doctitle>Google Gen AI Java SDK</doctitle>
+            <source>${maven.compiler.source}</source>
+            <encoding>UTF-8</encoding>
           </configuration>
         </plugin>
         <plugin>
