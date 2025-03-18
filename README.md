@@ -273,6 +273,47 @@ public class GenerateContentWithConfigs {
 }
 ```
 
+#### Generate Content with JSON response schema
+To get a response in JSON by passing in a response schema to the
+`GenerateContent` API.
+
+```java
+package <your package name>;
+
+import com.google.common.collect.ImmutableMap;
+import com.google.genai.Client;
+import com.google.genai.types.GenerateContentConfig;
+import com.google.genai.types.GenerateContentResponse;
+import com.google.genai.types.Schema;
+import java.io.IOException;
+import org.apache.http.HttpException;
+
+public class GenerateContentWithSchema {
+  public static void main(String[] args) throws IOException, HttpException {
+    Client client = new Client();
+
+    Schema schema =
+        Schema.builder()
+            .type("object")
+            .properties(
+                ImmutableMap.of(
+                    "name", Schema.builder().type("string").description("Your Name").build()))
+            .build();
+    GenerateContentConfig config =
+        GenerateContentConfig.builder()
+            .responseMimeType("application/json")
+            .candidateCount(1)
+            .responseSchema(schema)
+            .build();
+
+    GenerateContentResponse response =
+        client.models.generateContent("gemini-2.0-flash-001", "Tell me your name", config);
+
+    System.out.println("Response: " + response.text());
+  }
+}
+```
+
 ## Versioning
 
 This library follows [Semantic Versioning](http://semver.org/).
