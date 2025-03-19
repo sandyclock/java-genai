@@ -170,10 +170,27 @@ public final class TableTest {
                 assumeTrue(false, msg);
               }));
     }
+    // Edit image ReferenceImages are not correctly deserialized for replay tests
+    if (testName.contains("models.edit_image")) {
+      String msg = "    === Skipped: replay tests are not supported for edit_image";
+      return Collections.singletonList(
+          DynamicTest.dynamicTest(
+              testName,
+              () -> {
+                System.out.println(msg);
+                assumeTrue(false, msg);
+              }));
+    }
 
     Map<String, Object> fromParameters = testTableItem.parameters().get();
     ReplaySanitizer.sanitizeMapByPath(
         fromParameters, "image.imageBytes", new ReplayBase64Sanitizer(), false);
+    // TODO(b/403368643): Support interface param types in Java replay tests.
+    // ReplaySanitizer.sanitizeMapByPath(
+    //     fromParameters,
+    //     "[]referenceImages.referenceImage.imageBytes",
+    //     new ReplayBase64Sanitizer(),
+    //     true);
 
     List<DynamicTest> dynamicTests = new ArrayList<>();
     // Iterate through overloading methods and find a match.
