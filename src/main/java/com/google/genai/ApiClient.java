@@ -28,6 +28,7 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.jspecify.annotations.Nullable;
 
 /** Interface for an API client which issues HTTP requests to the GenAI APIs. */
 abstract class ApiClient {
@@ -150,18 +151,18 @@ abstract class ApiClient {
   }
 
   /** Returns the project ID for Vertex AI APIs. */
-  public String project() {
-    return project.get();
+  public @Nullable String project() {
+    return project.orElse(null);
   }
 
   /** Returns the location for Vertex AI APIs. */
-  public String location() {
-    return location.get();
+  public @Nullable String location() {
+    return location.orElse(null);
   }
 
   /** Returns the API key for Google AI APIs. */
-  public String apiKey() {
-    return apiKey.get();
+  public @Nullable String apiKey() {
+    return apiKey.orElse(null);
   }
 
   /** Returns the HttpClient for API calls. */
