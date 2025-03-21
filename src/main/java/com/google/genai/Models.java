@@ -32,9 +32,11 @@ import com.google.genai.types.GenerateContentResponse;
 import com.google.genai.types.GenerateImagesConfig;
 import com.google.genai.types.GenerateImagesParameters;
 import com.google.genai.types.GenerateImagesResponse;
+import com.google.genai.types.GeneratedImage;
 import com.google.genai.types.Image;
 import com.google.genai.types.ReferenceImage;
 import com.google.genai.types.ReferenceImageAPI;
+import com.google.genai.types.SafetyAttributes;
 import com.google.genai.types.UpscaleImageAPIConfig;
 import com.google.genai.types.UpscaleImageAPIParameters;
 import com.google.genai.types.UpscaleImageConfig;
@@ -3113,6 +3115,13 @@ public final class Models {
           Common.getValueByPath(fromObject, new String[] {"safetyAttributes", "scores"}));
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"contentType"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"contentType"},
+          Common.getValueByPath(fromObject, new String[] {"contentType"}));
+    }
+
     return toObject;
   }
 
@@ -3132,6 +3141,13 @@ public final class Models {
           toObject,
           new String[] {"scores"},
           Common.getValueByPath(fromObject, new String[] {"safetyAttributes", "scores"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"contentType"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"contentType"},
+          Common.getValueByPath(fromObject, new String[] {"contentType"}));
     }
 
     return toObject;
@@ -3231,6 +3247,19 @@ public final class Models {
       Common.setValueByPath(toObject, new String[] {"generatedImages"}, result);
     }
 
+    if (Common.getValueByPath(fromObject, new String[] {"positivePromptSafetyAttributes"})
+        != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"positivePromptSafetyAttributes"},
+          SafetyAttributesFromMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(
+                      fromObject, new String[] {"positivePromptSafetyAttributes"})),
+              toObject));
+    }
+
     return toObject;
   }
 
@@ -3249,6 +3278,19 @@ public final class Models {
                 GeneratedImageFromVertex(apiClient, JsonSerializable.toJsonNode(item), toObject));
           });
       Common.setValueByPath(toObject, new String[] {"generatedImages"}, result);
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"positivePromptSafetyAttributes"})
+        != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"positivePromptSafetyAttributes"},
+          SafetyAttributesFromVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(
+                      fromObject, new String[] {"positivePromptSafetyAttributes"})),
+              toObject));
     }
 
     return toObject;
@@ -3418,7 +3460,7 @@ public final class Models {
         GenerateContentResponse.class, response, this, converterName);
   }
 
-  public GenerateImagesResponse generateImages(
+  private GenerateImagesResponse privateGenerateImages(
       String model, String prompt, GenerateImagesConfig config) throws IOException, HttpException {
 
     GenerateImagesParameters.Builder parameterBuilder = GenerateImagesParameters.builder();
@@ -3660,6 +3702,54 @@ public final class Models {
       String model, String text, GenerateContentConfig config) throws IOException, HttpException {
     return privateGenerateContentStream(
         model, Transformers.tContents(this.apiClient, (Object) text), config);
+  }
+
+  /**
+   * Generates images given a GenAI model and a prompt.
+   *
+   * @param model the name of the GenAI model to use for upscaling
+   * @param prompt the factor to upscale the image
+   * @param config a {@link com.google.genai.types.GenerateImagesConfig} instance that specifies the
+   *     optional configurations
+   * @return a {@link com.google.genai.types.GenerateImagesResponse} instance that contains the
+   *     generated images.
+   * @throws IOException if an I/O error occurs while making the API call
+   * @throws HttpException if an HTTP error occurs while making the API call
+   */
+  public GenerateImagesResponse generateImages(
+      String model, String prompt, GenerateImagesConfig config) throws IOException, HttpException {
+
+    GenerateImagesResponse apiResponse = privateGenerateImages(model, prompt, config);
+
+    SafetyAttributes positivePromptSafetyAttributes = null;
+    List<GeneratedImage> generatedImages = new ArrayList<>();
+
+    if (apiResponse.generatedImages().isPresent()) {
+      for (GeneratedImage generatedImage : apiResponse.generatedImages().get()) {
+        if (generatedImage.safetyAttributes().isPresent()
+            && generatedImage.safetyAttributes().get().contentType().isPresent()
+            && generatedImage
+                .safetyAttributes()
+                .get()
+                .contentType()
+                .get()
+                .equals("Positive Prompt")) {
+          positivePromptSafetyAttributes = generatedImage.safetyAttributes().get();
+        } else {
+          generatedImages.add(generatedImage);
+        }
+      }
+    }
+
+    GenerateImagesResponse.Builder builder =
+        GenerateImagesResponse.builder().generatedImages(generatedImages);
+
+    if (positivePromptSafetyAttributes != null) {
+      builder = builder.positivePromptSafetyAttributes(positivePromptSafetyAttributes);
+    }
+
+    GenerateImagesResponse response = builder.build();
+    return response;
   }
 
   /**
