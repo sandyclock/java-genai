@@ -26,18 +26,25 @@ import com.google.genai.JsonSerializable;
 import java.util.Optional;
 
 /**
- * Retrieve from Vertex AI Search datastore for grounding. See
- * https://cloud.google.com/products/agent-builder
+ * Retrieve from Vertex AI Search datastore or engine for grounding. datastore and engine are
+ * mutually exclusive. See https://cloud.google.com/products/agent-builder
  */
 @AutoValue
 @JsonDeserialize(builder = VertexAISearch.Builder.class)
 public abstract class VertexAISearch extends JsonSerializable {
   /**
-   * Required. Fully-qualified Vertex AI Search data store resource ID. Format:
+   * Optional. Fully-qualified Vertex AI Search data store resource ID. Format:
    * `projects/{project}/locations/{location}/collections/{collection}/dataStores/{dataStore}`
    */
   @JsonProperty("datastore")
   public abstract Optional<String> datastore();
+
+  /**
+   * Optional. Fully-qualified Vertex AI Search engine resource ID. Format:
+   * `projects/{project}/locations/{location}/collections/{collection}/engines/{engine}`
+   */
+  @JsonProperty("engine")
+  public abstract Optional<String> engine();
 
   /** Instantiates a builder for VertexAISearch. */
   public static Builder builder() {
@@ -58,6 +65,9 @@ public abstract class VertexAISearch extends JsonSerializable {
 
     @JsonProperty("datastore")
     public abstract Builder datastore(String datastore);
+
+    @JsonProperty("engine")
+    public abstract Builder engine(String engine);
 
     public abstract VertexAISearch build();
   }
