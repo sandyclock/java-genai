@@ -162,10 +162,6 @@ public final class Models {
       throw new Error("maxLength parameter is not supported in Gemini API.");
     }
 
-    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"title"}))) {
-      throw new Error("title parameter is not supported in Gemini API.");
-    }
-
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"minLength"}))) {
       throw new Error("minLength parameter is not supported in Gemini API.");
     }
@@ -267,6 +263,13 @@ public final class Models {
           toObject,
           new String[] {"required"},
           Common.getValueByPath(fromObject, new String[] {"required"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"title"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"title"},
+          Common.getValueByPath(fromObject, new String[] {"title"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"type"}) != null) {
@@ -1029,13 +1032,6 @@ public final class Models {
           Common.getValueByPath(fromObject, new String[] {"maxLength"}));
     }
 
-    if (Common.getValueByPath(fromObject, new String[] {"title"}) != null) {
-      Common.setValueByPath(
-          toObject,
-          new String[] {"title"},
-          Common.getValueByPath(fromObject, new String[] {"title"}));
-    }
-
     if (Common.getValueByPath(fromObject, new String[] {"minLength"}) != null) {
       Common.setValueByPath(
           toObject,
@@ -1146,6 +1142,13 @@ public final class Models {
           toObject,
           new String[] {"required"},
           Common.getValueByPath(fromObject, new String[] {"required"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"title"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"title"},
+          Common.getValueByPath(fromObject, new String[] {"title"}));
     }
 
     if (Common.getValueByPath(fromObject, new String[] {"type"}) != null) {
