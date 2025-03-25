@@ -19,14 +19,27 @@ package com.google.genai;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import org.jspecify.annotations.Nullable;
 
 /** Common utility methods for the GenAI SDK. */
 public final class Common {
 
   private Common() {}
 
+  /**
+   * Sets the value of an object by a path.
+   *
+   * <p>setValueByPath({}, ['a', 'b'], v) -> {'a': {'b': v}}
+   *
+   * <p>setValueByPath({}, ['a', 'b[]', c], [v1, v2]) -> {'a': {'b': [{'c': v1}, {'c': v2}]}}
+   *
+   * <p>setValueByPath({'a': {'b':[{'c': v1}, {'c': v2}]}}, ['a', 'b[]', 'd'], v3) -> {'a': {'b':
+   * [{'c': v1, 'd': v3}, {'c': v2,'d': v3}]}}
+   */
   static void setValueByPath(ObjectNode jsonObject, String[] path, Object value) {
     if (path == null || path.length == 0) {
       throw new IllegalArgumentException("Path cannot be empty.");
@@ -38,16 +51,43 @@ public final class Common {
     ObjectNode currentObject = jsonObject;
     for (int i = 0; i < path.length - 1; i++) {
       String key = path[i];
-      if (key.endsWith("[0]")) {
-        String keyName = key.substring(0, key.length() - 3);
-        ArrayNode arrayNode;
+
+      if (key.endsWith("[]")) {
+        String keyName = key.substring(0, key.length() - 2);
         if (!currentObject.has(keyName)) {
           currentObject.putArray(keyName);
-          arrayNode = (ArrayNode) currentObject.get(keyName);
-          arrayNode.add(JsonSerializable.objectMapper.createObjectNode());
         }
-        arrayNode = (ArrayNode) currentObject.get(keyName);
-        currentObject = (ObjectNode) arrayNode.get(0);
+        ArrayNode arrayNode = (ArrayNode) currentObject.get(keyName);
+        if (value instanceof List) {
+          List<?> listValue = (List<?>) value;
+          if (arrayNode.size() != listValue.size()) {
+            arrayNode.removeAll();
+            for (int j = 0; j < listValue.size(); j++) {
+              arrayNode.addObject();
+            }
+          }
+          for (int j = 0; j < arrayNode.size(); j++) {
+            setValueByPath(
+                (ObjectNode) arrayNode.get(j),
+                Arrays.copyOfRange(path, i + 1, path.length),
+                listValue.get(j));
+          }
+        } else {
+          if (arrayNode.size() == 0) {
+            arrayNode.addObject();
+          }
+          for (int j = 0; j < arrayNode.size(); j++) {
+            setValueByPath(
+                (ObjectNode) arrayNode.get(j), Arrays.copyOfRange(path, i + 1, path.length), value);
+          }
+        }
+        return;
+      } else if (key.endsWith("[0]")) {
+        String keyName = key.substring(0, key.length() - 3);
+        if (!currentObject.has(keyName)) {
+          currentObject.putArray(keyName).addObject();
+        }
+        currentObject = (ObjectNode) ((ArrayNode) currentObject.get(keyName)).get(0);
       } else {
         if (!currentObject.has(key)) {
           currentObject.putObject(key);
@@ -57,6 +97,72 @@ public final class Common {
     }
 
     currentObject.put(path[path.length - 1], JsonSerializable.toJsonNode(value));
+  }
+
+  /**
+   * Gets the value of an object by a path.
+   *
+   * <p>getValueByPath({'a': {'b': v}}, ['a', 'b']) -> v
+   *
+   * <p>getValueByPath({'a': {'b': [{'c': v1}, {'c': v2}]}}, ['a', 'b[]', 'c']) -> [v1, v2]
+   */
+  static @Nullable Object getValueByPath(JsonNode object, String[] keys) {
+    if (object == null || keys == null) {
+      return null;
+    }
+    if (keys.length == 1 && keys[0].equals("_self")) {
+      return object;
+    }
+
+    JsonNode currentObject = object;
+    for (int i = 0; i < keys.length; i++) {
+      String key = keys[i];
+
+      if (currentObject == null) {
+        return null;
+      }
+
+      if (key.endsWith("[]")) {
+        String keyName = key.substring(0, key.length() - 2);
+        if (currentObject.isObject()
+            && ((ObjectNode) currentObject).has(keyName)
+            && ((ObjectNode) currentObject).get(keyName).isArray()) {
+          ArrayNode arrayNode = (ArrayNode) ((ObjectNode) currentObject).get(keyName);
+          if (keys.length - 1 == i) {
+            return arrayNode;
+          }
+          ArrayNode result = JsonSerializable.objectMapper.createArrayNode();
+          for (JsonNode element : arrayNode) {
+            JsonNode node =
+                (JsonNode) getValueByPath(element, Arrays.copyOfRange(keys, i + 1, keys.length));
+            if (node != null) {
+              result.add(node);
+            }
+          }
+          return result;
+        } else {
+          return null;
+        }
+      } else if (key.endsWith("[0]")) {
+        String keyName = key.substring(0, key.length() - 3);
+        if (currentObject.isObject()
+            && ((ObjectNode) currentObject).has(keyName)
+            && ((ObjectNode) currentObject).get(keyName).isArray()
+            && ((ArrayNode) ((ObjectNode) currentObject).get(keyName)).size() > 0) {
+          currentObject = ((ArrayNode) ((ObjectNode) currentObject).get(keyName)).get(0);
+        } else {
+          return null;
+        }
+      } else {
+        if (currentObject.isObject() && ((ObjectNode) currentObject).has(key)) {
+          currentObject = ((ObjectNode) currentObject).get(key);
+        } else {
+          return null;
+        }
+      }
+    }
+
+    return currentObject;
   }
 
   static String formatMap(String template, JsonNode data) {
@@ -89,33 +195,5 @@ public final class Common {
     }
 
     return false;
-  }
-
-  static Object getValueByPath(JsonNode object, String[] keys) {
-    if (object == null || keys == null) {
-      return null;
-    }
-    if (keys.length == 1 && keys[0].equals("_self")) {
-      return object;
-    }
-
-    JsonNode currentObject = object;
-
-    for (String key : keys) {
-      if (currentObject instanceof ObjectNode) {
-        currentObject = currentObject.get(key);
-      } else if (currentObject instanceof ArrayNode) {
-        try {
-          int index = Integer.parseInt(key);
-          currentObject = currentObject.get(index);
-        } catch (NumberFormatException | IndexOutOfBoundsException e) {
-          return null;
-        }
-      } else {
-        return null;
-      }
-    }
-
-    return currentObject;
   }
 }
