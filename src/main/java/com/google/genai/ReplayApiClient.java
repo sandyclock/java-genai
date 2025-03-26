@@ -17,6 +17,7 @@
 package com.google.genai;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.stream.Collectors.joining;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -25,6 +26,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,6 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 import org.apache.http.ProtocolVersion;
 import org.apache.http.StatusLine;
 import org.apache.http.entity.BasicHttpEntity;
@@ -85,12 +88,18 @@ final class ReplayApiClient extends ApiClient {
     this.clientMode = clientMode;
   }
 
+  private static String readString(Path path) throws IOException {
+    try (Stream<String> stream = Files.lines(path)) {
+      return stream.collect(joining(System.lineSeparator()));
+    }
+  }
+
   void initializeReplaySession(String replayId) {
     this.replayId = replayId;
     String replayPath = this.replaysDirectory + "/" + this.replayId;
     // Open the replay file if it exists.
     try {
-      String replayData = Files.readString(Paths.get(replayPath));
+      String replayData = readString(Paths.get(replayPath));
       // TODO(b/369384123): Parsing to a ReplaySession object is not working because snake_case
       // fields like body_segments are not being populated. For now, we will just use basic JSON
       // parsing and switch to the generated JSON classes once we have the replays working.

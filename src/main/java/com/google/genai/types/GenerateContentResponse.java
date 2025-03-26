@@ -122,12 +122,12 @@ public abstract class GenerateContentResponse extends JsonSerializable {
     checkFinishReason();
 
     Optional<List<Candidate>> candidates = candidates();
-    if (candidates.isEmpty() || candidates.get().isEmpty()) {
+    if (!candidates.isPresent() || candidates.get().isEmpty()) {
       return null;
     }
 
     Optional<Content> content = candidates.get().get(0).content();
-    if (content.isEmpty()) {
+    if (!content.isPresent()) {
       return null;
     }
 
