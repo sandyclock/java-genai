@@ -17,7 +17,7 @@
 package com.google.genai.types;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import com.google.common.collect.ImmutableMap;
 import org.junit.jupiter.api.Test;
@@ -30,11 +30,11 @@ public class PartTest {
 
     assertEquals("test-text", part.text().get());
 
-    assertTrue(part.fileData().isEmpty());
-    assertTrue(part.functionCall().isEmpty());
-    assertTrue(part.functionResponse().isEmpty());
-    assertTrue(part.inlineData().isEmpty());
-    assertTrue(part.videoMetadata().isEmpty());
+    assertFalse(part.fileData().isPresent());
+    assertFalse(part.functionCall().isPresent());
+    assertFalse(part.functionResponse().isPresent());
+    assertFalse(part.inlineData().isPresent());
+    assertFalse(part.videoMetadata().isPresent());
   }
 
   @Test
@@ -44,11 +44,11 @@ public class PartTest {
     assertEquals("test-uri", part.fileData().get().fileUri().get());
     assertEquals("test-mime-type", part.fileData().get().mimeType().get());
 
-    assertTrue(part.text().isEmpty());
-    assertTrue(part.functionCall().isEmpty());
-    assertTrue(part.functionResponse().isEmpty());
-    assertTrue(part.inlineData().isEmpty());
-    assertTrue(part.videoMetadata().isEmpty());
+    assertFalse(part.text().isPresent());
+    assertFalse(part.functionCall().isPresent());
+    assertFalse(part.functionResponse().isPresent());
+    assertFalse(part.inlineData().isPresent());
+    assertFalse(part.videoMetadata().isPresent());
   }
 
   @Test
@@ -59,11 +59,11 @@ public class PartTest {
     assertEquals(bytes, part.inlineData().get().data().get());
     assertEquals("test-mime-type", part.inlineData().get().mimeType().get());
 
-    assertTrue(part.text().isEmpty());
-    assertTrue(part.fileData().isEmpty());
-    assertTrue(part.functionCall().isEmpty());
-    assertTrue(part.functionResponse().isEmpty());
-    assertTrue(part.videoMetadata().isEmpty());
+    assertFalse(part.text().isPresent());
+    assertFalse(part.fileData().isPresent());
+    assertFalse(part.functionCall().isPresent());
+    assertFalse(part.functionResponse().isPresent());
+    assertFalse(part.videoMetadata().isPresent());
   }
 
   @Test
@@ -74,11 +74,11 @@ public class PartTest {
     assertEquals("test-function-name", part.functionCall().get().name().get());
     assertEquals("test-value", part.functionCall().get().args().get().get("test-key"));
 
-    assertTrue(part.text().isEmpty());
-    assertTrue(part.fileData().isEmpty());
-    assertTrue(part.functionResponse().isEmpty());
-    assertTrue(part.inlineData().isEmpty());
-    assertTrue(part.videoMetadata().isEmpty());
+    assertFalse(part.text().isPresent());
+    assertFalse(part.fileData().isPresent());
+    assertFalse(part.functionResponse().isPresent());
+    assertFalse(part.inlineData().isPresent());
+    assertFalse(part.videoMetadata().isPresent());
   }
 
   @Test
@@ -89,10 +89,10 @@ public class PartTest {
     assertEquals("test-function-name", part.functionResponse().get().name().get());
     assertEquals("test-value", part.functionResponse().get().response().get().get("test-key"));
 
-    assertTrue(part.text().isEmpty());
-    assertTrue(part.fileData().isEmpty());
-    assertTrue(part.functionCall().isEmpty());
-    assertTrue(part.inlineData().isEmpty());
-    assertTrue(part.videoMetadata().isEmpty());
+    assertFalse(part.text().isPresent());
+    assertFalse(part.fileData().isPresent());
+    assertFalse(part.functionCall().isPresent());
+    assertFalse(part.inlineData().isPresent());
+    assertFalse(part.videoMetadata().isPresent());
   }
 }

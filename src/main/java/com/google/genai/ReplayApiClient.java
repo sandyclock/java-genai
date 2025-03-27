@@ -88,7 +88,7 @@ final class ReplayApiClient extends ApiClient {
     this.clientMode = clientMode;
   }
 
-  private static String readString(Path path) throws IOException {
+  static String readString(Path path) throws IOException {
     try (Stream<String> stream = Files.lines(path)) {
       return stream.collect(joining(System.lineSeparator()));
     }

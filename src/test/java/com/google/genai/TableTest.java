@@ -20,6 +20,7 @@ package com.google.genai;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.genai.types.TestTableFile;
 import com.google.genai.types.TestTableItem;
 import java.io.IOException;
@@ -37,7 +38,6 @@ import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
-import com.google.common.collect.ImmutableSet;
 
 /** Sample class to prototype GenAI SDK functionalities. */
 public final class TableTest {
@@ -76,7 +76,7 @@ public final class TableTest {
     String suffix = client.vertexAI() ? "vertex" : "mldev";
 
     // Reads JSON.
-    String data = Files.readString(Paths.get(path));
+    String data = ReplayApiClient.readString(Paths.get(path));
     TestTableFile testTableFile = TestTableFile.fromJson(data);
 
     // Gets module name and method name.

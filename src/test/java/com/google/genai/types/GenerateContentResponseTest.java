@@ -20,15 +20,31 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.google.common.collect.ImmutableList;
-import java.util.Map;
+import java.util.HashMap;
 import org.junit.jupiter.api.Test;
 
 public class GenerateContentResponseTest {
 
   private static final FunctionCall FUNCTION_CALL_1 =
-      FunctionCall.builder().name("funcCall1").args(Map.of("key1", "val1")).build();
+      FunctionCall.builder()
+          .name("funcCall1")
+          .args(
+              new HashMap<String, Object>() {
+                {
+                  put("key1", "val1");
+                }
+              })
+          .build();
   private static final FunctionCall FUNCTION_CALL_2 =
-      FunctionCall.builder().name("funcCall2").args(Map.of("key2", "val2")).build();
+      FunctionCall.builder()
+          .name("funcCall2")
+          .args(
+              new HashMap<String, Object>() {
+                {
+                  put("key2", "val2");
+                }
+              })
+          .build();
 
   private static final Part PART_1 = Part.builder().text("text1").build();
   private static final Part PART_2 = Part.builder().text("text2").build();
