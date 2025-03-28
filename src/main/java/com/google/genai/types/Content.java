@@ -39,8 +39,8 @@ public abstract class Content extends JsonSerializable {
 
   /**
    * Optional. The producer of the content. Must be either 'user' or 'model'. Useful to set for
-   * multi-turn conversations, otherwise can be left blank or unset. If role is not specified, SDK
-   * will determine the role.
+   * multi-turn conversations, otherwise can be empty. If role is not specified, SDK will determine
+   * the role.
    */
   @JsonProperty("role")
   public abstract Optional<String> role();

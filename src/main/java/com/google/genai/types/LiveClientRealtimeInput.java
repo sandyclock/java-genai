@@ -29,15 +29,15 @@ import java.util.Optional;
 /**
  * User input that is sent in real time.
  *
- * <p>This is different from `ClientContentUpdate` in a few ways:
+ * <p>This is different from `LiveClientContent` in a few ways:
  *
  * <p>- Can be sent continuously without interruption to model generation. - If there is a need to
- * mix data interleaved across the `ClientContentUpdate` and the `RealtimeUpdate`, server attempts
- * to optimize for best response, but there are no guarantees. - End of turn is not explicitly
- * specified, but is rather derived from user activity (for example, end of speech). - Even before
- * the end of turn, the data is processed incrementally to optimize for a fast start of the response
- * from the model. - Is always assumed to be the user's input (cannot be used to populate
- * conversation history).
+ * mix data interleaved across the `LiveClientContent` and the `LiveClientRealtimeInput`, server
+ * attempts to optimize for best response, but there are no guarantees. - End of turn is not
+ * explicitly specified, but is rather derived from user activity (for example, end of speech). -
+ * Even before the end of turn, the data is processed incrementally to optimize for a fast start of
+ * the response from the model. - Is always assumed to be the user's input (cannot be used to
+ * populate conversation history).
  */
 @AutoValue
 @JsonDeserialize(builder = LiveClientRealtimeInput.Builder.class)
