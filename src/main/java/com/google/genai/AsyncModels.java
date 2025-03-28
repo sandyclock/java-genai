@@ -19,6 +19,8 @@
 package com.google.genai;
 
 import com.google.genai.types.Content;
+import com.google.genai.types.EmbedContentConfig;
+import com.google.genai.types.EmbedContentResponse;
 import com.google.genai.types.GenerateContentConfig;
 import com.google.genai.types.GenerateContentResponse;
 import com.google.genai.types.GenerateImagesConfig;
@@ -202,6 +204,51 @@ public final class AsyncModels {
         () -> {
           try {
             return models.upscaleImage(model, image, upscaleFactor, config);
+          } catch (IOException | HttpException e) {
+            throw new RuntimeException(e);
+          }
+        });
+  }
+
+  /**
+   * Asynchronously embeds content given a GenAI model and a text string.
+   *
+   * @param model the name of the GenAI model to use for embedding
+   * @param text the text string to send to the embedding model
+   * @return a {@link com.google.genai.types.EmbedContentResponse} instance that contains the
+   *     embedding.
+   * @throws IOException if an I/O error occurs while making the API call
+   * @throws HttpException if an HTTP error occurs while making the API call
+   */
+  public CompletableFuture<EmbedContentResponse> embedContent(
+      String model, String text, EmbedContentConfig config) throws IOException, HttpException {
+    return CompletableFuture.supplyAsync(
+        () -> {
+          try {
+            return models.embedContent(model, text, config);
+          } catch (IOException | HttpException e) {
+            throw new RuntimeException(e);
+          }
+        });
+  }
+
+  /**
+   * Asynchronously embeds content given a GenAI model and a list of text strings.
+   *
+   * @param model the name of the GenAI model to use for embedding
+   * @param texts the list of text strings to send to the embedding model
+   * @return a {@link com.google.genai.types.EmbedContentResponse} instance that contains the
+   *     embedding.
+   * @throws IOException if an I/O error occurs while making the API call
+   * @throws HttpException if an HTTP error occurs while making the API call
+   */
+  public CompletableFuture<EmbedContentResponse> embedContent(
+      String model, List<String> texts, EmbedContentConfig config)
+      throws IOException, HttpException {
+    return CompletableFuture.supplyAsync(
+        () -> {
+          try {
+            return models.embedContent(model, texts, config);
           } catch (IOException | HttpException e) {
             throw new RuntimeException(e);
           }

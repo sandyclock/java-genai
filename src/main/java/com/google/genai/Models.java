@@ -22,10 +22,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.collect.ImmutableList;
 import com.google.genai.types.Content;
 import com.google.genai.types.EditImageConfig;
 import com.google.genai.types.EditImageParameters;
 import com.google.genai.types.EditImageResponse;
+import com.google.genai.types.EmbedContentConfig;
+import com.google.genai.types.EmbedContentParameters;
+import com.google.genai.types.EmbedContentResponse;
 import com.google.genai.types.GenerateContentConfig;
 import com.google.genai.types.GenerateContentParameters;
 import com.google.genai.types.GenerateContentResponse;
@@ -34,6 +38,7 @@ import com.google.genai.types.GenerateImagesParameters;
 import com.google.genai.types.GenerateImagesResponse;
 import com.google.genai.types.GeneratedImage;
 import com.google.genai.types.Image;
+import com.google.genai.types.Part;
 import com.google.genai.types.ReferenceImage;
 import com.google.genai.types.ReferenceImageAPI;
 import com.google.genai.types.SafetyAttributes;
@@ -778,6 +783,80 @@ public final class Models {
               toObject));
     }
 
+    return toObject;
+  }
+
+  ObjectNode EmbedContentConfigToMldev(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+
+    if (Common.getValueByPath(fromObject, new String[] {"taskType"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"requests[]", "taskType"},
+          Common.getValueByPath(fromObject, new String[] {"taskType"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"title"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"requests[]", "title"},
+          Common.getValueByPath(fromObject, new String[] {"title"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"outputDimensionality"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"requests[]", "outputDimensionality"},
+          Common.getValueByPath(fromObject, new String[] {"outputDimensionality"}));
+    }
+
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"mimeType"}))) {
+      throw new Error("mimeType parameter is not supported in Gemini API.");
+    }
+
+    if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"autoTruncate"}))) {
+      throw new Error("autoTruncate parameter is not supported in Gemini API.");
+    }
+
+    return toObject;
+  }
+
+  ObjectNode EmbedContentParametersToMldev(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"model"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"_url", "model"},
+          Transformers.tModel(
+              this.apiClient, Common.getValueByPath(fromObject, new String[] {"model"})));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"contents"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"requests[]", "content"},
+          Transformers.tContentsForEmbed(
+              this.apiClient, Common.getValueByPath(fromObject, new String[] {"contents"})));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"config"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"config"},
+          EmbedContentConfigToMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"config"})),
+              toObject));
+    }
+
+    Common.setValueByPath(
+        toObject,
+        new String[] {"requests[]", "model"},
+        Transformers.tModel(
+            this.apiClient, Common.getValueByPath(fromObject, new String[] {"model"})));
     return toObject;
   }
 
@@ -1684,6 +1763,81 @@ public final class Models {
     return toObject;
   }
 
+  ObjectNode EmbedContentConfigToVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+
+    if (Common.getValueByPath(fromObject, new String[] {"taskType"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"instances[]", "task_type"},
+          Common.getValueByPath(fromObject, new String[] {"taskType"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"title"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"instances[]", "title"},
+          Common.getValueByPath(fromObject, new String[] {"title"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"outputDimensionality"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"parameters", "outputDimensionality"},
+          Common.getValueByPath(fromObject, new String[] {"outputDimensionality"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"mimeType"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"instances[]", "mimeType"},
+          Common.getValueByPath(fromObject, new String[] {"mimeType"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"autoTruncate"}) != null) {
+      Common.setValueByPath(
+          parentObject,
+          new String[] {"parameters", "autoTruncate"},
+          Common.getValueByPath(fromObject, new String[] {"autoTruncate"}));
+    }
+
+    return toObject;
+  }
+
+  ObjectNode EmbedContentParametersToVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"model"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"_url", "model"},
+          Transformers.tModel(
+              this.apiClient, Common.getValueByPath(fromObject, new String[] {"model"})));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"contents"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"instances[]", "content"},
+          Transformers.tContentsForEmbed(
+              this.apiClient, Common.getValueByPath(fromObject, new String[] {"contents"})));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"config"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"config"},
+          EmbedContentConfigToVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"config"})),
+              toObject));
+    }
+
+    return toObject;
+  }
+
   ObjectNode GenerateImagesConfigToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -2468,6 +2622,64 @@ public final class Models {
     return toObject;
   }
 
+  ObjectNode ContentEmbeddingStatisticsFromMldev(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+
+    return toObject;
+  }
+
+  ObjectNode ContentEmbeddingFromMldev(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"values"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"values"},
+          Common.getValueByPath(fromObject, new String[] {"values"}));
+    }
+
+    return toObject;
+  }
+
+  ObjectNode EmbedContentMetadataFromMldev(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+
+    return toObject;
+  }
+
+  ObjectNode EmbedContentResponseFromMldev(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"embeddings"}) != null) {
+      ArrayNode keyArray =
+          (ArrayNode) Common.getValueByPath(fromObject, new String[] {"embeddings"});
+      ObjectMapper objectMapper = new ObjectMapper();
+      ArrayNode result = objectMapper.createArrayNode();
+
+      keyArray.forEach(
+          item -> {
+            result.add(
+                ContentEmbeddingFromMldev(apiClient, JsonSerializable.toJsonNode(item), toObject));
+          });
+      Common.setValueByPath(toObject, new String[] {"embeddings"}, result);
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"metadata"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"metadata"},
+          EmbedContentMetadataFromMldev(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"metadata"})),
+              toObject));
+    }
+
+    return toObject;
+  }
+
   ObjectNode ImageFromMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
 
@@ -2822,6 +3034,95 @@ public final class Models {
     return toObject;
   }
 
+  ObjectNode ContentEmbeddingStatisticsFromVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"truncated"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"truncated"},
+          Common.getValueByPath(fromObject, new String[] {"truncated"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"token_count"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"tokenCount"},
+          Common.getValueByPath(fromObject, new String[] {"token_count"}));
+    }
+
+    return toObject;
+  }
+
+  ObjectNode ContentEmbeddingFromVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"values"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"values"},
+          Common.getValueByPath(fromObject, new String[] {"values"}));
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"statistics"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"statistics"},
+          ContentEmbeddingStatisticsFromVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"statistics"})),
+              toObject));
+    }
+
+    return toObject;
+  }
+
+  ObjectNode EmbedContentMetadataFromVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"billableCharacterCount"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"billableCharacterCount"},
+          Common.getValueByPath(fromObject, new String[] {"billableCharacterCount"}));
+    }
+
+    return toObject;
+  }
+
+  ObjectNode EmbedContentResponseFromVertex(
+      ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
+    ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
+    if (Common.getValueByPath(fromObject, new String[] {"predictions[]", "embeddings"}) != null) {
+      ArrayNode keyArray =
+          (ArrayNode)
+              Common.getValueByPath(fromObject, new String[] {"predictions[]", "embeddings"});
+      ObjectMapper objectMapper = new ObjectMapper();
+      ArrayNode result = objectMapper.createArrayNode();
+
+      keyArray.forEach(
+          item -> {
+            result.add(
+                ContentEmbeddingFromVertex(apiClient, JsonSerializable.toJsonNode(item), toObject));
+          });
+      Common.setValueByPath(toObject, new String[] {"embeddings"}, result);
+    }
+
+    if (Common.getValueByPath(fromObject, new String[] {"metadata"}) != null) {
+      Common.setValueByPath(
+          toObject,
+          new String[] {"metadata"},
+          EmbedContentMetadataFromVertex(
+              apiClient,
+              JsonSerializable.toJsonNode(
+                  Common.getValueByPath(fromObject, new String[] {"metadata"})),
+              toObject));
+    }
+
+    return toObject;
+  }
+
   ObjectNode ImageFromVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"gcsUri"}) != null) {
@@ -3075,6 +3376,49 @@ public final class Models {
     }
     return new ResponseStream<GenerateContentResponse>(
         GenerateContentResponse.class, response, this, converterName);
+  }
+
+  private EmbedContentResponse privateEmbedContent(
+      String model, List<Content> contents, EmbedContentConfig config)
+      throws IOException, HttpException {
+
+    EmbedContentParameters.Builder parameterBuilder = EmbedContentParameters.builder();
+
+    if (!Common.isZero(model)) {
+      parameterBuilder.model(model);
+    }
+    if (!Common.isZero(contents)) {
+      parameterBuilder.contents(contents);
+    }
+    if (!Common.isZero(config)) {
+      parameterBuilder.config(config);
+    }
+    JsonNode parameterNode = JsonSerializable.toJsonNode(parameterBuilder.build());
+
+    ObjectNode body;
+    String path;
+    if (this.apiClient.vertexAI()) {
+      body = EmbedContentParametersToVertex(this.apiClient, parameterNode, null);
+      path = Common.formatMap("{model}:predict", body.get("_url"));
+    } else {
+      body = EmbedContentParametersToMldev(this.apiClient, parameterNode, null);
+      path = Common.formatMap("{model}:batchEmbedContents", body.get("_url"));
+    }
+    body.remove("_url");
+    // TODO: Remove the hack that removes config.
+    body.remove("config");
+
+    try (ApiResponse response = this.apiClient.post(path, JsonSerializable.toJsonString(body))) {
+      HttpEntity entity = response.getEntity();
+      String responseString = EntityUtils.toString(entity);
+      JsonNode responseNode = JsonSerializable.objectMapper.readTree(responseString);
+      if (this.apiClient.vertexAI()) {
+        responseNode = EmbedContentResponseFromVertex(this.apiClient, responseNode, null);
+      } else {
+        responseNode = EmbedContentResponseFromMldev(this.apiClient, responseNode, null);
+      }
+      return JsonSerializable.fromJsonNode(responseNode, EmbedContentResponse.class);
+    }
   }
 
   private GenerateImagesResponse privateGenerateImages(
@@ -3438,5 +3782,40 @@ public final class Models {
     UpscaleImageAPIConfig apiConfig = builder.build();
 
     return privateUpscaleImage(model, image, upscaleFactor, apiConfig);
+  }
+
+  /**
+   * Embeds content given a GenAI model and a text string.
+   *
+   * @param model the name of the GenAI model to use for embedding
+   * @param text the text string to send to the embedding model
+   * @return a {@link com.google.genai.types.EmbedContentResponse} instance that contains the
+   *     embedding.
+   * @throws IOException if an I/O error occurs while making the API call
+   * @throws HttpException if an HTTP error occurs while making the API call
+   */
+  public EmbedContentResponse embedContent(String model, String text, EmbedContentConfig config)
+      throws IOException, HttpException {
+    return embedContent(model, ImmutableList.of(text), config);
+  }
+
+  /**
+   * Embeds content given a GenAI model and a list of text strings.
+   *
+   * @param model the name of the GenAI model to use for embedding
+   * @param texts the list of text strings to send to the embedding model
+   * @return a {@link com.google.genai.types.EmbedContentResponse} instance that contains the
+   *     embedding.
+   * @throws IOException if an I/O error occurs while making the API call
+   * @throws HttpException if an HTTP error occurs while making the API call
+   */
+  public EmbedContentResponse embedContent(
+      String model, List<String> texts, EmbedContentConfig config)
+      throws IOException, HttpException {
+    List<Content> contents = new ArrayList<>();
+    for (String text : texts) {
+      contents.add(Content.fromParts(Part.fromText(text)));
+    }
+    return privateEmbedContent(model, contents, config);
   }
 }

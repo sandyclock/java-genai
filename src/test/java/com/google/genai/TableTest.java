@@ -108,8 +108,13 @@ public final class TableTest {
     try {
       module = Client.class.getDeclaredField(moduleName);
       Class<?> moduleClass = module.getType();
-      for (Method candidate : moduleClass.getMethods()) {
+      for (Method candidate : moduleClass.getDeclaredMethods()) {
         if (candidate.getName().equals(methodName)) {
+          methods.add(candidate);
+        }
+        if (methodName.equals("embedContent")
+            && candidate.getName().equals("privateEmbedContent")) {
+          candidate.setAccessible(true);
           methods.add(candidate);
         }
       }
@@ -202,8 +207,12 @@ public final class TableTest {
           String parameterName = snakeToCamel(parameterNames.get(i));
           Object fromValue = fromParameters.getOrDefault(parameterName, null);
           // May throw IllegalArgumentException here
-          parameters.add(
-              JsonSerializable.objectMapper.convertValue(fromValue, method.getParameterTypes()[i]));
+          Object parameter =
+              JsonSerializable.objectMapper.convertValue(fromValue, method.getParameterTypes()[i]);
+          if (method.getName().equals("embedContent") && parameter instanceof List) {
+            throw new IllegalArgumentException();
+          }
+          parameters.add(parameter);
         }
         dynamicTests.add(
             DynamicTest.dynamicTest(

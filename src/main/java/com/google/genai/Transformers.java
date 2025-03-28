@@ -30,6 +30,7 @@ import com.google.genai.types.VoiceConfig;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.jspecify.annotations.Nullable;
 
 /** Transformers for GenAI SDK. */
 final class Transformers {
@@ -214,6 +215,35 @@ final class Transformers {
 
     throw new IllegalArgumentException(
         "Unsupported cached content name type: " + origin.getClass());
+  }
+
+  public static @Nullable List<Object> tContentsForEmbed(ApiClient apiClient, Object origin) {
+    if (origin == null) {
+      return null;
+    }
+
+    List<Content> contents;
+    if (origin instanceof List) {
+      contents = (List<Content>) origin;
+    } else if (origin instanceof JsonNode) {
+      contents =
+          JsonSerializable.objectMapper.convertValue(
+              (JsonNode) origin, new TypeReference<List<Content>>() {});
+    } else {
+      throw new IllegalArgumentException("Unsupported contents type: " + origin.getClass());
+    }
+
+    List<Object> result = new ArrayList<>();
+    for (Content content : contents) {
+      if (!apiClient.vertexAI()) {
+        result.add(content);
+      } else {
+        for (Part part : content.parts().orElse(ImmutableList.of())) {
+          part.text().ifPresent(result::add);
+        }
+      }
+    }
+    return result;
   }
 
   private static Schema processSchema(ApiClient apiClient, Schema schema) {
