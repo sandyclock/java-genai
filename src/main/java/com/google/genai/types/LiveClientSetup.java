@@ -34,12 +34,7 @@ public abstract class LiveClientSetup extends JsonSerializable {
   @JsonProperty("model")
   public abstract Optional<String> model();
 
-  /**
-   * The generation configuration for the session.
-   *
-   * <p>The following fields are supported: - `response_logprobs` - `response_mime_type` -
-   * `logprobs` - `response_schema` - `stop_sequence` - `routing_config` - `audio_timestamp`
-   */
+  /** The generation configuration for the session. Note: only a subset of fields are supported. */
   @JsonProperty("generationConfig")
   public abstract Optional<GenerationConfig> generationConfig();
 
