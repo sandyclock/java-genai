@@ -29,10 +29,12 @@ public final class Client implements AutoCloseable {
   /** Async class for GenAI. */
   public final class Async {
     public final AsyncModels models;
+    public final AsyncOperations operations;
     public final AsyncLive live;
 
     public Async(ApiClient apiClient) {
       this.models = new AsyncModels(apiClient);
+      this.operations = new AsyncOperations(apiClient);
       this.live = new AsyncLive(apiClient);
     }
   }
@@ -40,6 +42,7 @@ public final class Client implements AutoCloseable {
   private final DebugConfig debugConfig;
   private final ApiClient apiClient;
   public final Models models;
+  public final Operations operations;
   public final Async async;
 
   /** Builder for {@link Client}. */
@@ -212,6 +215,7 @@ public final class Client implements AutoCloseable {
     }
 
     models = new Models(this.apiClient);
+    operations = new Operations(this.apiClient);
     async = new Async(this.apiClient);
   }
 

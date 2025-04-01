@@ -18,6 +18,7 @@
 
 package com.google.genai;
 
+import com.google.api.core.BetaApi;
 import com.google.genai.types.Content;
 import com.google.genai.types.EmbedContentConfig;
 import com.google.genai.types.EmbedContentResponse;
@@ -25,6 +26,8 @@ import com.google.genai.types.GenerateContentConfig;
 import com.google.genai.types.GenerateContentResponse;
 import com.google.genai.types.GenerateImagesConfig;
 import com.google.genai.types.GenerateImagesResponse;
+import com.google.genai.types.GenerateVideosConfig;
+import com.google.genai.types.GenerateVideosOperation;
 import com.google.genai.types.Image;
 import com.google.genai.types.UpscaleImageConfig;
 import com.google.genai.types.UpscaleImageResponse;
@@ -38,6 +41,19 @@ public final class AsyncModels {
 
   public AsyncModels(ApiClient apiClient) {
     this.models = new Models(apiClient);
+  }
+
+  @BetaApi
+  public CompletableFuture<GenerateVideosOperation> generateVideos(
+      String model, String prompt, Image image, GenerateVideosConfig config) {
+    return CompletableFuture.supplyAsync(
+        () -> {
+          try {
+            return models.generateVideos(model, prompt, image, config);
+          } catch (IOException | HttpException e) {
+            throw new RuntimeException(e);
+          }
+        });
   }
 
   /**
