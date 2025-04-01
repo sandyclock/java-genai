@@ -12,7 +12,7 @@ in production environments at this stage.
 
 If you're using Maven, add the following to your dependencies:
 
-<!-- {x-version-update-start:google-genai:released} -->
+<!-- {x-version-start:google-genai:released} -->
 
 ```xml
 <dependencies>
@@ -24,7 +24,7 @@ If you're using Maven, add the following to your dependencies:
 </dependencies>
 ```
 
-<!-- {x-version-update-end} -->
+<!-- {x-version-end} -->
 
 ## Getting Started
 
