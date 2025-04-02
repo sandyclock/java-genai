@@ -17,7 +17,7 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           javadoc-branch: gh-pages
-          java-version: 9
+          java-version: 17
           target-folder: javadoc
           project: maven
           custom-command: mvn javadoc:javadoc
