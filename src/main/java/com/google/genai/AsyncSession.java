@@ -27,6 +27,7 @@ import com.google.genai.types.LiveSendRealtimeInputParameters;
 import com.google.genai.types.LiveSendToolResponseParameters;
 import com.google.genai.types.LiveServerMessage;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 import java.util.function.Consumer;
 
 /**
@@ -100,7 +101,18 @@ public final class AsyncSession {
    *     will fail if the message cannot be sent.
    */
   private CompletableFuture<Void> send(LiveClientMessage input) {
-    return CompletableFuture.runAsync(() -> websocket.send(input.toJson()));
+    return CompletableFuture.runAsync(
+        () -> {
+          try {
+            websocket.send(input.toJson());
+          } catch (RuntimeException e) {
+            throw new CompletionException("Failed to send message to live session.", e);
+          }
+        });
+  }
+
+  public CompletableFuture<Void> sendContent(LiveClientMessage input) {
+    return send(input);
   }
 
   /**
@@ -121,12 +133,17 @@ public final class AsyncSession {
   /**
    * Closes the WebSocket connection.
    *
-   * @return A {@link CompletableFuture} that completes when the connection has been closed.
+   * @return A {@link CompletableFuture} that completes when the connection has been closed. Fails
+   *     with a {@link CompletionException} wrapping the underlying cause if closing fails.
    */
   public CompletableFuture<Void> close() {
     return CompletableFuture.runAsync(
         () -> {
-          websocket.close();
+          try {
+            websocket.close();
+          } catch (RuntimeException e) {
+            throw new CompletionException("Failed to close websocket connection.", e);
+          }
         });
   }
 }

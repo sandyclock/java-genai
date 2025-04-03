@@ -23,7 +23,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.google.api.core.InternalApi;
-import com.google.genai.errors.GenAiIOException;
 
 /** A class that can be serialized to JSON and deserialized from JSON. */
 public abstract class JsonSerializable {
@@ -46,7 +45,7 @@ public abstract class JsonSerializable {
     try {
       return objectMapper.writeValueAsString(object);
     } catch (JsonProcessingException e) {
-      throw new GenAiIOException("Failed to serialize the object to JSON.", e);
+      throw new IllegalStateException(e);
     }
   }
 
@@ -62,7 +61,7 @@ public abstract class JsonSerializable {
     try {
       return objectMapper.readValue(jsonString, clazz);
     } catch (JsonProcessingException e) {
-      throw new GenAiIOException("Failed to deserialize the JSON string.", e);
+      throw new IllegalStateException(e);
     }
   }
 
@@ -71,16 +70,7 @@ public abstract class JsonSerializable {
     try {
       return objectMapper.treeToValue(jsonNode, clazz);
     } catch (JsonProcessingException e) {
-      throw new GenAiIOException("Failed to deserialize the JSON node.", e);
-    }
-  }
-
-  /** Converts a Json string to a JsonNode. */
-  static JsonNode stringToJsonNode(String string) {
-    try {
-      return objectMapper.readTree(string);
-    } catch (JsonProcessingException e) {
-      throw new GenAiIOException("Failed to parse the JSON string.", e);
+      throw new IllegalStateException(e);
     }
   }
 }

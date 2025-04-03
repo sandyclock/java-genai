@@ -18,7 +18,6 @@ package com.google.genai;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.common.collect.ImmutableMap;
-import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.HttpOptions;
 import java.io.IOException;
 import java.util.Map;
@@ -46,7 +45,7 @@ final class HttpApiClient extends ApiClient {
 
   /** Sends a Http Post request given the path and request json string. */
   @Override
-  public ApiResponse post(String path, String requestJson) {
+  public ApiResponse post(String path, String requestJson) throws IOException {
     if (this.vertexAI() && !path.startsWith("projects/")) {
       path =
           String.format("projects/%s/locations/%s/", this.project.get(), this.location.get())
@@ -66,20 +65,13 @@ final class HttpApiClient extends ApiClient {
     } else {
       GoogleCredentials cred =
           credentials.orElseThrow(() -> new IllegalStateException("credentials is required"));
-      try {
-        cred.refreshIfExpired();
-      } catch (IOException e) {
-        throw new GenAiIOException("Failed to refresh credentials.", e);
-      }
+      cred.refreshIfExpired();
       httpPost.setHeader("Authorization", "Bearer " + cred.getAccessToken().getTokenValue());
     }
 
     httpPost.setEntity(new StringEntity(requestJson, ContentType.APPLICATION_JSON));
 
-    try {
-      return new HttpApiResponse(httpClient.execute(httpPost));
-    } catch (IOException e) {
-      throw new GenAiIOException("Failed to execute HTTP request.", e);
-    }
+    HttpApiResponse httpApiResponse = new HttpApiResponse(httpClient.execute(httpPost));
+    return httpApiResponse;
   }
 }

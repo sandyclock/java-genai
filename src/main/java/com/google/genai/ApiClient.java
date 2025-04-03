@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.common.collect.ImmutableMap;
-import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.HttpOptions;
 import java.io.IOException;
 import java.util.Map;
@@ -104,7 +103,13 @@ abstract class ApiClient {
       throw new IllegalArgumentException("Location must not be empty.");
     }
 
-    this.credentials = Optional.of(credentials.orElse(defaultCredentials()));
+    try {
+      this.credentials = Optional.of(credentials.orElse(defaultCredentials()));
+    } catch (IOException e) {
+      throw new IllegalArgumentException(
+          "Failed to get application default credentials, please explicitly provide credentials.",
+          e);
+    }
 
     this.httpOptions = defaultHttpOptions(/* vertexAI= */ true, this.location);
 
@@ -128,7 +133,7 @@ abstract class ApiClient {
   }
 
   /** Sends a Http Post request given the path and request json string. */
-  public abstract ApiResponse post(String path, String requestJson);
+  public abstract ApiResponse post(String path, String requestJson) throws IOException;
 
   /** Returns the library version. */
   static String libraryVersion() {
@@ -211,14 +216,8 @@ abstract class ApiClient {
     return defaultHttpOptionsBuilder.build();
   }
 
-  GoogleCredentials defaultCredentials() {
-    try {
-      return GoogleCredentials.getApplicationDefault()
-          .createScoped("https://www.googleapis.com/auth/cloud-platform");
-    } catch (IOException e) {
-      throw new GenAiIOException(
-          "Failed to get application default credentials, please explicitly provide credentials.",
-          e);
-    }
+  GoogleCredentials defaultCredentials() throws IOException {
+    return GoogleCredentials.getApplicationDefault()
+        .createScoped("https://www.googleapis.com/auth/cloud-platform");
   }
 }

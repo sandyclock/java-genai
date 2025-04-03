@@ -23,7 +23,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.api.core.BetaApi;
-import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.FetchPredictOperationConfig;
 import com.google.genai.types.FetchPredictOperationParameters;
 import com.google.genai.types.GenerateVideosOperation;
@@ -31,6 +30,7 @@ import com.google.genai.types.GetOperationConfig;
 import com.google.genai.types.GetOperationParameters;
 import java.io.IOException;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpException;
 import org.apache.http.util.EntityUtils;
 
 public final class Operations {
@@ -371,7 +371,7 @@ public final class Operations {
   }
 
   private GenerateVideosOperation privateGetVideosOperation(
-      String operationName, GetOperationConfig config) {
+      String operationName, GetOperationConfig config) throws IOException, HttpException {
 
     GetOperationParameters.Builder parameterBuilder = GetOperationParameters.builder();
 
@@ -398,13 +398,8 @@ public final class Operations {
 
     try (ApiResponse response = this.apiClient.post(path, JsonSerializable.toJsonString(body))) {
       HttpEntity entity = response.getEntity();
-      String responseString;
-      try {
-        responseString = EntityUtils.toString(entity);
-      } catch (IOException e) {
-        throw new GenAiIOException("Failed to read HTTP response.", e);
-      }
-      JsonNode responseNode = JsonSerializable.stringToJsonNode(responseString);
+      String responseString = EntityUtils.toString(entity);
+      JsonNode responseNode = JsonSerializable.objectMapper.readTree(responseString);
       if (this.apiClient.vertexAI()) {
         responseNode = GenerateVideosOperationFromVertex(this.apiClient, responseNode, null);
       } else {
@@ -415,7 +410,8 @@ public final class Operations {
   }
 
   private GenerateVideosOperation privateFetchPredictVideosOperation(
-      String operationName, String resourceName, FetchPredictOperationConfig config) {
+      String operationName, String resourceName, FetchPredictOperationConfig config)
+      throws IOException, HttpException {
 
     FetchPredictOperationParameters.Builder parameterBuilder =
         FetchPredictOperationParameters.builder();
@@ -446,13 +442,8 @@ public final class Operations {
 
     try (ApiResponse response = this.apiClient.post(path, JsonSerializable.toJsonString(body))) {
       HttpEntity entity = response.getEntity();
-      String responseString;
-      try {
-        responseString = EntityUtils.toString(entity);
-      } catch (IOException e) {
-        throw new GenAiIOException("Failed to read HTTP response.", e);
-      }
-      JsonNode responseNode = JsonSerializable.stringToJsonNode(responseString);
+      String responseString = EntityUtils.toString(entity);
+      JsonNode responseNode = JsonSerializable.objectMapper.readTree(responseString);
       if (this.apiClient.vertexAI()) {
         responseNode = GenerateVideosOperationFromVertex(this.apiClient, responseNode, null);
       } else {
@@ -469,10 +460,13 @@ public final class Operations {
    * @param operation A GenerateVideosOperation.
    * @param config The configuration for getting the operation.
    * @return A GenerateVideosOperation with the updated status of the operation.
+   * @throws IOException If an I/O error occurs while reading the operation.
+   * @throws HttpException If an HTTP error occurs while reading the operation.
    */
   @BetaApi
   public GenerateVideosOperation getVideoOperation(
-      GenerateVideosOperation operation, GetOperationConfig config) {
+      GenerateVideosOperation operation, GetOperationConfig config)
+      throws IOException, HttpException {
 
     if (!operation.name().isPresent()) {
       throw new Error("Operation name is required.");
