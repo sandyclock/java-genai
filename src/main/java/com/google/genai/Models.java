@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.api.core.BetaApi;
 import com.google.common.collect.ImmutableList;
+import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.Content;
 import com.google.genai.types.EditImageConfig;
 import com.google.genai.types.EditImageParameters;
@@ -54,7 +55,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpException;
 import org.apache.http.util.EntityUtils;
 
 public final class Models {
@@ -3822,8 +3822,7 @@ public final class Models {
   }
 
   private GenerateContentResponse privateGenerateContent(
-      String model, List<Content> contents, GenerateContentConfig config)
-      throws IOException, HttpException {
+      String model, List<Content> contents, GenerateContentConfig config) {
 
     GenerateContentParameters.Builder parameterBuilder = GenerateContentParameters.builder();
 
@@ -3853,8 +3852,13 @@ public final class Models {
 
     try (ApiResponse response = this.apiClient.post(path, JsonSerializable.toJsonString(body))) {
       HttpEntity entity = response.getEntity();
-      String responseString = EntityUtils.toString(entity);
-      JsonNode responseNode = JsonSerializable.objectMapper.readTree(responseString);
+      String responseString;
+      try {
+        responseString = EntityUtils.toString(entity);
+      } catch (IOException e) {
+        throw new GenAiIOException("Failed to read HTTP response.", e);
+      }
+      JsonNode responseNode = JsonSerializable.stringToJsonNode(responseString);
       if (this.apiClient.vertexAI()) {
         responseNode = GenerateContentResponseFromVertex(this.apiClient, responseNode, null);
       } else {
@@ -3865,8 +3869,7 @@ public final class Models {
   }
 
   private ResponseStream<GenerateContentResponse> privateGenerateContentStream(
-      String model, List<Content> contents, GenerateContentConfig config)
-      throws IOException, HttpException {
+      String model, List<Content> contents, GenerateContentConfig config) {
 
     GenerateContentParameters.Builder parameterBuilder = GenerateContentParameters.builder();
 
@@ -3906,8 +3909,7 @@ public final class Models {
   }
 
   private EmbedContentResponse privateEmbedContent(
-      String model, List<Content> contents, EmbedContentConfig config)
-      throws IOException, HttpException {
+      String model, List<Content> contents, EmbedContentConfig config) {
 
     EmbedContentParameters.Builder parameterBuilder = EmbedContentParameters.builder();
 
@@ -3937,8 +3939,13 @@ public final class Models {
 
     try (ApiResponse response = this.apiClient.post(path, JsonSerializable.toJsonString(body))) {
       HttpEntity entity = response.getEntity();
-      String responseString = EntityUtils.toString(entity);
-      JsonNode responseNode = JsonSerializable.objectMapper.readTree(responseString);
+      String responseString;
+      try {
+        responseString = EntityUtils.toString(entity);
+      } catch (IOException e) {
+        throw new GenAiIOException("Failed to read HTTP response.", e);
+      }
+      JsonNode responseNode = JsonSerializable.stringToJsonNode(responseString);
       if (this.apiClient.vertexAI()) {
         responseNode = EmbedContentResponseFromVertex(this.apiClient, responseNode, null);
       } else {
@@ -3949,7 +3956,7 @@ public final class Models {
   }
 
   private GenerateImagesResponse privateGenerateImages(
-      String model, String prompt, GenerateImagesConfig config) throws IOException, HttpException {
+      String model, String prompt, GenerateImagesConfig config) {
 
     GenerateImagesParameters.Builder parameterBuilder = GenerateImagesParameters.builder();
 
@@ -3979,8 +3986,13 @@ public final class Models {
 
     try (ApiResponse response = this.apiClient.post(path, JsonSerializable.toJsonString(body))) {
       HttpEntity entity = response.getEntity();
-      String responseString = EntityUtils.toString(entity);
-      JsonNode responseNode = JsonSerializable.objectMapper.readTree(responseString);
+      String responseString;
+      try {
+        responseString = EntityUtils.toString(entity);
+      } catch (IOException e) {
+        throw new GenAiIOException("Failed to read HTTP response.", e);
+      }
+      JsonNode responseNode = JsonSerializable.stringToJsonNode(responseString);
       if (this.apiClient.vertexAI()) {
         responseNode = GenerateImagesResponseFromVertex(this.apiClient, responseNode, null);
       } else {
@@ -3991,8 +4003,10 @@ public final class Models {
   }
 
   private EditImageResponse privateEditImage(
-      String model, String prompt, List<ReferenceImageAPI> referenceImages, EditImageConfig config)
-      throws IOException, HttpException {
+      String model,
+      String prompt,
+      List<ReferenceImageAPI> referenceImages,
+      EditImageConfig config) {
 
     EditImageParameters.Builder parameterBuilder = EditImageParameters.builder();
 
@@ -4025,8 +4039,13 @@ public final class Models {
 
     try (ApiResponse response = this.apiClient.post(path, JsonSerializable.toJsonString(body))) {
       HttpEntity entity = response.getEntity();
-      String responseString = EntityUtils.toString(entity);
-      JsonNode responseNode = JsonSerializable.objectMapper.readTree(responseString);
+      String responseString;
+      try {
+        responseString = EntityUtils.toString(entity);
+      } catch (IOException e) {
+        throw new GenAiIOException("Failed to read HTTP response.", e);
+      }
+      JsonNode responseNode = JsonSerializable.stringToJsonNode(responseString);
       if (this.apiClient.vertexAI()) {
         responseNode = EditImageResponseFromVertex(this.apiClient, responseNode, null);
       } else {
@@ -4038,8 +4057,7 @@ public final class Models {
   }
 
   private UpscaleImageResponse privateUpscaleImage(
-      String model, Image image, String upscaleFactor, UpscaleImageAPIConfig config)
-      throws IOException, HttpException {
+      String model, Image image, String upscaleFactor, UpscaleImageAPIConfig config) {
 
     UpscaleImageAPIParameters.Builder parameterBuilder = UpscaleImageAPIParameters.builder();
 
@@ -4072,8 +4090,13 @@ public final class Models {
 
     try (ApiResponse response = this.apiClient.post(path, JsonSerializable.toJsonString(body))) {
       HttpEntity entity = response.getEntity();
-      String responseString = EntityUtils.toString(entity);
-      JsonNode responseNode = JsonSerializable.objectMapper.readTree(responseString);
+      String responseString;
+      try {
+        responseString = EntityUtils.toString(entity);
+      } catch (IOException e) {
+        throw new GenAiIOException("Failed to read HTTP response.", e);
+      }
+      JsonNode responseNode = JsonSerializable.stringToJsonNode(responseString);
       if (this.apiClient.vertexAI()) {
         responseNode = UpscaleImageResponseFromVertex(this.apiClient, responseNode, null);
       } else {
@@ -4086,8 +4109,7 @@ public final class Models {
 
   @BetaApi
   public GenerateVideosOperation generateVideos(
-      String model, String prompt, Image image, GenerateVideosConfig config)
-      throws IOException, HttpException {
+      String model, String prompt, Image image, GenerateVideosConfig config) {
 
     GenerateVideosParameters.Builder parameterBuilder = GenerateVideosParameters.builder();
 
@@ -4120,8 +4142,13 @@ public final class Models {
 
     try (ApiResponse response = this.apiClient.post(path, JsonSerializable.toJsonString(body))) {
       HttpEntity entity = response.getEntity();
-      String responseString = EntityUtils.toString(entity);
-      JsonNode responseNode = JsonSerializable.objectMapper.readTree(responseString);
+      String responseString;
+      try {
+        responseString = EntityUtils.toString(entity);
+      } catch (IOException e) {
+        throw new GenAiIOException("Failed to read HTTP response.", e);
+      }
+      JsonNode responseNode = JsonSerializable.stringToJsonNode(responseString);
       if (this.apiClient.vertexAI()) {
         responseNode = GenerateVideosOperationFromVertex(this.apiClient, responseNode, null);
       } else {
@@ -4140,12 +4167,9 @@ public final class Models {
    *     the optional configurations
    * @return a {@link com.google.genai.types.GenerateContentResponse} instance that contains
    *     response contents and other metadata
-   * @throws IOException if an I/O error occurs while making the API call
-   * @throws HttpException if an HTTP error occurs while making the API call
    */
   public GenerateContentResponse generateContent(
-      String model, List<Content> contents, GenerateContentConfig config)
-      throws IOException, HttpException {
+      String model, List<Content> contents, GenerateContentConfig config) {
     return privateGenerateContent(model, contents, config);
   }
 
@@ -4158,12 +4182,9 @@ public final class Models {
    *     the optional configurations
    * @return a {@link com.google.genai.types.GenerateContentResponse} instance that contains
    *     response contents and other metadata
-   * @throws IOException if an I/O error occurs while making the API call
-   * @throws HttpException if an HTTP error occurs while making the API call
    */
   public GenerateContentResponse generateContent(
-      String model, Content content, GenerateContentConfig config)
-      throws IOException, HttpException {
+      String model, Content content, GenerateContentConfig config) {
     return privateGenerateContent(
         model, Transformers.tContents(this.apiClient, (Object) content), config);
   }
@@ -4177,11 +4198,9 @@ public final class Models {
    *     the optional configurations
    * @return a {@link com.google.genai.types.GenerateContentResponse} instance that contains
    *     response contents and other metadata
-   * @throws IOException if an I/O error occurs while making the API call
-   * @throws HttpException if an HTTP error occurs while making the API call
    */
   public GenerateContentResponse generateContent(
-      String model, String text, GenerateContentConfig config) throws IOException, HttpException {
+      String model, String text, GenerateContentConfig config) {
     return privateGenerateContent(
         model, Transformers.tContents(this.apiClient, (Object) text), config);
   }
@@ -4195,12 +4214,9 @@ public final class Models {
    *     the optional configurations
    * @return a {@link com.google.genai.types.GenerateContentResponse} instance that contains
    *     response contents and other metadata
-   * @throws IOException if an I/O error occurs while making the API call
-   * @throws HttpException if an HTTP error occurs while making the API call
    */
   public ResponseStream<GenerateContentResponse> generateContentStream(
-      String model, List<Content> contents, GenerateContentConfig config)
-      throws IOException, HttpException {
+      String model, List<Content> contents, GenerateContentConfig config) {
     return privateGenerateContentStream(model, contents, config);
   }
 
@@ -4213,12 +4229,9 @@ public final class Models {
    *     the optional configurations
    * @return a {@link com.google.genai.types.GenerateContentResponse} instance that contains
    *     response contents and other metadata
-   * @throws IOException if an I/O error occurs while making the API call
-   * @throws HttpException if an HTTP error occurs while making the API call
    */
   public ResponseStream<GenerateContentResponse> generateContentStream(
-      String model, Content content, GenerateContentConfig config)
-      throws IOException, HttpException {
+      String model, Content content, GenerateContentConfig config) {
     return privateGenerateContentStream(
         model, Transformers.tContents(this.apiClient, (Object) content), config);
   }
@@ -4232,11 +4245,9 @@ public final class Models {
    *     the optional configurations
    * @return a {@link com.google.genai.types.GenerateContentResponse} instance that contains
    *     response contents and other metadata
-   * @throws IOException if an I/O error occurs while making the API call
-   * @throws HttpException if an HTTP error occurs while making the API call
    */
   public ResponseStream<GenerateContentResponse> generateContentStream(
-      String model, String text, GenerateContentConfig config) throws IOException, HttpException {
+      String model, String text, GenerateContentConfig config) {
     return privateGenerateContentStream(
         model, Transformers.tContents(this.apiClient, (Object) text), config);
   }
@@ -4250,11 +4261,9 @@ public final class Models {
    *     optional configurations
    * @return a {@link com.google.genai.types.GenerateImagesResponse} instance that contains the
    *     generated images.
-   * @throws IOException if an I/O error occurs while making the API call
-   * @throws HttpException if an HTTP error occurs while making the API call
    */
   public GenerateImagesResponse generateImages(
-      String model, String prompt, GenerateImagesConfig config) throws IOException, HttpException {
+      String model, String prompt, GenerateImagesConfig config) {
 
     GenerateImagesResponse apiResponse = privateGenerateImages(model, prompt, config);
 
@@ -4305,12 +4314,9 @@ public final class Models {
    *     optional configurations
    * @return a {@link com.google.genai.types.EditImageResponse} instance that contains the upscaled
    *     image.
-   * @throws IOException if an I/O error occurs while making the API call
-   * @throws HttpException if an HTTP error occurs while making the API call
    */
   public EditImageResponse editImage(
-      String model, String prompt, List<ReferenceImage> referenceImages, EditImageConfig config)
-      throws IOException, HttpException {
+      String model, String prompt, List<ReferenceImage> referenceImages, EditImageConfig config) {
 
     List<ReferenceImageAPI> referenceImagesAPI = new ArrayList<>();
     for (ReferenceImage referenceImage : referenceImages) {
@@ -4330,12 +4336,9 @@ public final class Models {
    *     optional configurations
    * @return a {@link com.google.genai.types.UpscaleImageResponse} instance that contains the
    *     upscaled image.
-   * @throws IOException if an I/O error occurs while making the API call
-   * @throws HttpException if an HTTP error occurs while making the API call
    */
   public UpscaleImageResponse upscaleImage(
-      String model, Image image, String upscaleFactor, UpscaleImageConfig config)
-      throws IOException, HttpException {
+      String model, Image image, String upscaleFactor, UpscaleImageConfig config) {
 
     UpscaleImageAPIConfig.Builder builder = UpscaleImageAPIConfig.builder();
     if (config != null) {
@@ -4365,11 +4368,8 @@ public final class Models {
    * @param text the text string to send to the embedding model
    * @return a {@link com.google.genai.types.EmbedContentResponse} instance that contains the
    *     embedding.
-   * @throws IOException if an I/O error occurs while making the API call
-   * @throws HttpException if an HTTP error occurs while making the API call
    */
-  public EmbedContentResponse embedContent(String model, String text, EmbedContentConfig config)
-      throws IOException, HttpException {
+  public EmbedContentResponse embedContent(String model, String text, EmbedContentConfig config) {
     return embedContent(model, ImmutableList.of(text), config);
   }
 
@@ -4380,12 +4380,9 @@ public final class Models {
    * @param texts the list of text strings to send to the embedding model
    * @return a {@link com.google.genai.types.EmbedContentResponse} instance that contains the
    *     embedding.
-   * @throws IOException if an I/O error occurs while making the API call
-   * @throws HttpException if an HTTP error occurs while making the API call
    */
   public EmbedContentResponse embedContent(
-      String model, List<String> texts, EmbedContentConfig config)
-      throws IOException, HttpException {
+      String model, List<String> texts, EmbedContentConfig config) {
     List<Content> contents = new ArrayList<>();
     for (String text : texts) {
       contents.add(Content.fromParts(Part.fromText(text)));

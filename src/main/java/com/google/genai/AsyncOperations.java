@@ -21,9 +21,7 @@ package com.google.genai;
 import com.google.api.core.BetaApi;
 import com.google.genai.types.GenerateVideosOperation;
 import com.google.genai.types.GetOperationConfig;
-import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
-import org.apache.http.HttpException;
 
 public final class AsyncOperations {
   Operations operations;
@@ -38,20 +36,10 @@ public final class AsyncOperations {
    * @param operation A GenerateVideosOperation.
    * @param config The configuration for getting the operation.
    * @return A GenerateVideosOperation with the updated status of the operation.
-   * @throws IOException If an I/O error occurs while reading the operation.
-   * @throws HttpException If an HTTP error occurs while reading the operation.
    */
   @BetaApi
   public CompletableFuture<GenerateVideosOperation> getVideoOperation(
-      GenerateVideosOperation operation, GetOperationConfig config)
-      throws IOException, HttpException {
-    return CompletableFuture.supplyAsync(
-        () -> {
-          try {
-            return operations.getVideoOperation(operation, config);
-          } catch (IOException | HttpException e) {
-            throw new RuntimeException(e);
-          }
-        });
+      GenerateVideosOperation operation, GetOperationConfig config) {
+    return CompletableFuture.supplyAsync(() -> operations.getVideoOperation(operation, config));
   }
 }

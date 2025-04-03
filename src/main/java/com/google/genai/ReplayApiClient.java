@@ -21,6 +21,7 @@ import static java.util.stream.Collectors.joining;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.HttpOptions;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -30,7 +31,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -50,7 +50,6 @@ final class ReplayApiClient extends ApiClient {
   private final String clientMode;
   private Map<String, Object> replaySession = null;
   private int replayIndex = -1;
-  private int sdkResponseIndex = -1;
 
   /** Constructs an ApiClient for Google AI APIs. */
   ReplayApiClient(
@@ -88,9 +87,11 @@ final class ReplayApiClient extends ApiClient {
     this.clientMode = clientMode;
   }
 
-  static String readString(Path path) throws IOException {
+  static String readString(Path path) {
     try (Stream<String> stream = Files.lines(path)) {
       return stream.collect(joining(System.lineSeparator()));
+    } catch (IOException e) {
+      throw new GenAiIOException("Failed to read replay file. ", e);
     }
   }
 
@@ -103,22 +104,21 @@ final class ReplayApiClient extends ApiClient {
       // TODO(b/369384123): Parsing to a ReplaySession object is not working because snake_case
       // fields like body_segments are not being populated. For now, we will just use basic JSON
       // parsing and switch to the generated JSON classes once we have the replays working.
-      Map<String, Object> map = new HashMap<>();
       // convert JSON string to Map
-      map =
+      Map<String, Object> map =
           JsonSerializable.objectMapper.readValue(
               replayData, new TypeReference<Map<String, Object>>() {});
       this.replaySession = map;
       this.replayIndex = 0;
-      this.sdkResponseIndex = 0;
     } catch (IOException e) {
-      throw new IllegalArgumentException("Failed to read replay file: " + e, e);
+      throw new GenAiIOException("Failed to read replay file: " + e, e);
     }
   }
 
   /** Sends a Http Post request given the path and request json string. */
   @SuppressWarnings("unchecked")
-  public ApiResponse post(String path, String requestJson) throws IOException {
+  @Override
+  public ApiResponse post(String path, String requestJson) {
     if (this.clientMode.equals("replay") || this.clientMode.equals("auto")) {
       System.out.println("    === Using replay for ID: " + this.replayId);
       List<Object> interactions = Arrays.asList(this.replaySession.get("interactions"));

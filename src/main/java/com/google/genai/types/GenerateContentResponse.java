@@ -115,8 +115,6 @@ public abstract class GenerateContentResponse extends JsonSerializable {
    * Returns the list of parts in the first candidate of the response.
    *
    * <p>Returns null if there is no candidate or no content in the first candidate
-   *
-   * @throws IllegalArgumentException if the response finishes unexpectedly.
    */
   public @Nullable ImmutableList<Part> parts() {
     checkFinishReason();
@@ -139,8 +137,6 @@ public abstract class GenerateContentResponse extends JsonSerializable {
    *
    * <p>Returns null if there is no candidate, no content in the first candidate, or no parts in the
    * content.
-   *
-   * @throws IllegalArgumentException if the response has non-text parts or finishes unexpectedly.
    */
   public @Nullable String text() {
     ImmutableList<Part> parts = parts();
