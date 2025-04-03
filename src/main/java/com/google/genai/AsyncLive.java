@@ -20,6 +20,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.LiveClientSetup;
 import com.google.genai.types.LiveConnectConfig;
 import com.google.genai.types.LiveServerMessage;
@@ -120,7 +121,7 @@ public class AsyncLive {
         credentials.refreshIfExpired();
         headers.put("Authorization", "Bearer " + credentials.getAccessToken().getTokenValue());
       } catch (IOException e) {
-        throw new IllegalStateException("Failed to get credentials for Vertex AI.", e);
+        throw new GenAiIOException("Failed to refresh credentials for Vertex AI.", e);
       }
     }
     return headers;
@@ -230,7 +231,7 @@ public class AsyncLive {
       System.out.println("Live session closed with code: " + code + " and reason: " + reason);
       if (!sessionFuture.isDone()) {
         sessionFuture.completeExceptionally(
-            new IOException("WebSocket closed unexpectedly: " + reason));
+            new GenAiIOException("WebSocket closed unexpectedly: " + reason));
       }
     }
 

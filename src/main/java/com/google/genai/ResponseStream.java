@@ -16,9 +16,9 @@
 
 package com.google.genai;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.genai.errors.GenAiIOException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,7 +29,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpException;
 
 /** An iterable of datatype objects. */
 public class ResponseStream<T extends JsonSerializable> implements Iterable<T>, AutoCloseable {
@@ -71,10 +70,10 @@ public class ResponseStream<T extends JsonSerializable> implements Iterable<T>, 
       String currentJson = nextJson;
       nextJson = readNextJson();
       try {
-        JsonNode currentJsonNode = JsonSerializable.objectMapper.readTree(currentJson);
+        JsonNode currentJsonNode = JsonSerializable.stringToJsonNode(currentJson);
         currentJsonNode = (JsonNode) converter.invoke(obj, null, currentJsonNode, null);
         return JsonSerializable.fromJsonNode(currentJsonNode, clazz);
-      } catch (IllegalAccessException | InvocationTargetException | JsonProcessingException e) {
+      } catch (IllegalAccessException | InvocationTargetException e) {
         throw new IllegalStateException("Failed to convert JSON object " + currentJson, e);
       }
     }
@@ -96,7 +95,7 @@ public class ResponseStream<T extends JsonSerializable> implements Iterable<T>, 
           return line.substring("data: ".length());
         }
       } catch (IOException e) {
-        throw new IllegalStateException("Failed to read next JSON object from the stream", e);
+        throw new GenAiIOException("Failed to read next JSON object from the stream", e);
       }
     }
   }
@@ -105,10 +104,14 @@ public class ResponseStream<T extends JsonSerializable> implements Iterable<T>, 
   private final ApiResponse response;
   private final BufferedReader reader;
 
-  public ResponseStream(Class<T> clazz, ApiResponse response, Object obj, String converterName)
-      throws IOException, HttpException {
+  public ResponseStream(Class<T> clazz, ApiResponse response, Object obj, String converterName) {
     HttpEntity entity = response.getEntity();
-    InputStream responseStream = entity.getContent();
+    InputStream responseStream;
+    try {
+      responseStream = entity.getContent();
+    } catch (IOException e) {
+      throw new GenAiIOException("Failed to read HTTP response.", e);
+    }
     this.reader = new BufferedReader(new InputStreamReader(responseStream, StandardCharsets.UTF_8));
     this.iterator = new ResponseStreamIterator(clazz, this.reader, obj, converterName);
     this.response = response;
@@ -120,10 +123,14 @@ public class ResponseStream<T extends JsonSerializable> implements Iterable<T>, 
   }
 
   @Override
-  public void close() throws IOException {
+  public void close() {
     try {
       if (reader != null) {
-        reader.close();
+        try {
+          reader.close();
+        } catch (IOException e) {
+          throw new GenAiIOException("Failed to close the response stream.", e);
+        }
       }
     } finally {
       if (response != null) {

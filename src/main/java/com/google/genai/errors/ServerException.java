@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-package com.google.genai;
+package com.google.genai.errors;
 
-import org.apache.http.HttpEntity;
+/** Server exception raised by the GenAI API. */
+public final class ServerException extends ApiException {
 
-/** The API response contains a response to a call to the GenAI APIs. */
-public abstract class ApiResponse implements AutoCloseable {
-  /** Gets the HttpEntity. */
-  public abstract HttpEntity getEntity();
-
-  @Override
-  public abstract void close();
+  /** Creates a new ServerException with the specified message. */
+  public ServerException(int code, String status, String message) {
+    super(code, status, message);
+  }
 }

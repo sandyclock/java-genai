@@ -16,9 +16,7 @@
 
 package com.google.genai;
 
-import java.io.IOException;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpException;
 import org.apache.http.StatusLine;
 
 // TODO(b/369384123): Change the replay API response to use the ReplayFile.
@@ -33,9 +31,11 @@ final class ReplayApiResponse extends ApiResponse {
     this.statusLine = statusLine;
   }
 
-  public HttpEntity getEntity() throws HttpException {
+  @Override
+  public HttpEntity getEntity() {
     return this.entity;
   }
 
-  public void close() throws IOException {}
+  @Override
+  public void close() {}
 }
