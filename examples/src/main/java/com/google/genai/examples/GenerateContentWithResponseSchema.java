@@ -44,15 +44,13 @@ import com.google.genai.Client;
 import com.google.genai.types.GenerateContentConfig;
 import com.google.genai.types.GenerateContentResponse;
 import com.google.genai.types.Schema;
-import java.io.IOException;
-import org.apache.http.HttpException;
 
 /**
  * GenerateContentWithResponseSchema generates a content and returns a json object by passing a
  * schema.
  */
 public class GenerateContentWithResponseSchema {
-  public static void main(String[] args) throws IOException, HttpException {
+  public static void main(String[] args) {
     Client client = new Client();
 
     Schema schema =

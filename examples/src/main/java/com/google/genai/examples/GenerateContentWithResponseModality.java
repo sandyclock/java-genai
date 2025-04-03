@@ -43,12 +43,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.genai.Client;
 import com.google.genai.types.GenerateContentConfig;
 import com.google.genai.types.GenerateContentResponse;
-import java.io.IOException;
-import org.apache.http.HttpException;
 
 /** An example of using the Unified Gen AI Java SDK to generate content with response modality. */
 public class GenerateContentWithResponseModality {
-  public static void main(String[] args) throws IOException, HttpException {
+  public static void main(String[] args) {
     // Instantiate the client using Vertex API.
     Client client = Client.builder().vertexAI(true).build();
 

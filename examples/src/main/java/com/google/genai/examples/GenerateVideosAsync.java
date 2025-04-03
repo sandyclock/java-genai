@@ -41,14 +41,12 @@ import com.google.genai.Client;
 import com.google.genai.types.GenerateVideosConfig;
 import com.google.genai.types.GenerateVideosOperation;
 import com.google.genai.types.Video;
-import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import org.apache.http.HttpException;
 
 /** An example of using the Unified Gen AI Java SDK to generate images asynchronously. */
 public class GenerateVideosAsync {
-  public static void main(String[] args) throws IOException, HttpException {
+  public static void main(String[] args) {
     // Instantiates the client using Vertex AI, and sets the project and location in the builder.
     Client client =
         Client.builder()
@@ -82,7 +80,7 @@ public class GenerateVideosAsync {
                   Thread.sleep(10000); // Sleep for 10 seconds.
                   try {
                     operation = client.async.operations.getVideoOperation(operation, null).get();
-                  } catch (HttpException | IOException | ExecutionException e) {
+                  } catch (ExecutionException e) {
                     throw new RuntimeException(e);
                   }
                   System.out.println("Waiting for operation to complete...");

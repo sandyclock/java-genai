@@ -33,31 +33,25 @@
  *
  * <p>2. Compile the java package and run the sample code.
  *
- * <p>mvn clean compile exec:java -Dexec.mainClass="com.google.genai.examples.EditImage"
+ * <p>mvn clean compile exec:java -Dexec.mainClass="com.google.genai.examples.EditImageMaskReference"
  */
 package com.google.genai.examples;
 
 import com.google.genai.Client;
-import com.google.genai.types.GenerateImagesConfig;
-import com.google.genai.types.GenerateImagesResponse;
 import com.google.genai.types.EditImageConfig;
 import com.google.genai.types.EditImageResponse;
+import com.google.genai.types.GenerateImagesConfig;
+import com.google.genai.types.GenerateImagesResponse;
 import com.google.genai.types.Image;
 import com.google.genai.types.MaskReferenceConfig;
 import com.google.genai.types.MaskReferenceImage;
 import com.google.genai.types.RawReferenceImage;
 import com.google.genai.types.ReferenceImage;
-import com.google.genai.types.StyleReferenceImage;
-import com.google.genai.types.StyleReferenceConfig;
-import com.google.genai.types.SubjectReferenceConfig;
-import com.google.genai.types.SubjectReferenceImage;
-import java.io.IOException;
 import java.util.ArrayList;
-import org.apache.http.HttpException;
 
 /** An example of using the Unified Gen AI Java SDK to edit an image (Mask reference). */
 public class EditImageMaskReference {
-  public static void main(String[] args) throws IOException, HttpException {
+  public static void main(String[] args) {
     // Instantiates the client using Vertex AI, and sets the project and location in the builder.
     Client client =
         Client.builder()

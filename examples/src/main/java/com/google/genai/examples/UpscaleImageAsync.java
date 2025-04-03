@@ -43,13 +43,11 @@ import com.google.genai.types.GenerateImagesResponse;
 import com.google.genai.types.Image;
 import com.google.genai.types.UpscaleImageConfig;
 import com.google.genai.types.UpscaleImageResponse;
-import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
-import org.apache.http.HttpException;
 
 /** An example of using the Unified Gen AI Java SDK to upscale an image asynchronously. */
 public class UpscaleImageAsync {
-  public static void main(String[] args) throws IOException, HttpException {
+  public static void main(String[] args) {
     // Instantiates the client using Vertex AI, and sets the project and location in the builder.
     Client client =
         Client.builder()

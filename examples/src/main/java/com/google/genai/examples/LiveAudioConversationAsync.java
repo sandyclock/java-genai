@@ -47,17 +47,13 @@ import com.google.common.collect.ImmutableList;
 import com.google.genai.AsyncSession;
 import com.google.genai.Client;
 import com.google.genai.types.Blob;
-import com.google.genai.types.Content;
 import com.google.genai.types.HttpOptions;
 import com.google.genai.types.LiveConnectConfig;
 import com.google.genai.types.LiveSendRealtimeInputParameters;
-import com.google.genai.types.LiveServerContent;
 import com.google.genai.types.LiveServerMessage;
 import com.google.genai.types.PrebuiltVoiceConfig;
 import com.google.genai.types.SpeechConfig;
 import com.google.genai.types.VoiceConfig;
-import java.io.IOException;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -70,7 +66,6 @@ import javax.sound.sampled.Line;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.TargetDataLine;
-import org.apache.http.HttpException;
 
 /** Example of using the live module for a streaming audio conversation. */
 public class LiveAudioConversationAsync {
@@ -136,8 +131,7 @@ public class LiveAudioConversationAsync {
     System.out.println("Microphone reading stopped.");
   }
 
-  public static void main(String[] args)
-      throws IOException, HttpException, LineUnavailableException {
+  public static void main(String[] args) throws LineUnavailableException {
 
     // Instantiates the client.
     Client client =

@@ -41,12 +41,10 @@ import com.google.genai.Client;
 import com.google.genai.types.GenerateVideosConfig;
 import com.google.genai.types.GenerateVideosOperation;
 import com.google.genai.types.Video;
-import java.io.IOException;
-import org.apache.http.HttpException;
 
 /** An example of using the Unified Gen AI Java SDK to generate videos. */
 public class GenerateVideos {
-  public static void main(String[] args) throws IOException, HttpException {
+  public static void main(String[] args) {
     // Instantiates the client using Vertex AI, and sets the project and location in the builder.
     Client client =
         Client.builder()

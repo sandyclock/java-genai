@@ -39,12 +39,10 @@ package com.google.genai.examples;
 
 import com.google.genai.Client;
 import com.google.genai.types.GenerateContentResponse;
-import java.io.IOException;
-import org.apache.http.HttpException;
 
 /** An example of using the Unified Gen AI Java SDK to generate content. */
 public class GenerateContent {
-  public static void main(String[] args) throws IOException, HttpException {
+  public static void main(String[] args) {
     // Instantiate the client. The client by default uses the Gemini Developer API. It gets the API
     // key from the environment variable `GOOGLE_API_KEY`.
     Client client = new Client();

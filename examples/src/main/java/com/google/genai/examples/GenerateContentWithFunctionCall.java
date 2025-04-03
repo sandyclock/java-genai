@@ -45,12 +45,10 @@ import com.google.genai.types.FunctionDeclaration;
 import com.google.genai.types.GenerateContentConfig;
 import com.google.genai.types.GenerateContentResponse;
 import com.google.genai.types.Schema;
-import java.io.IOException;
-import org.apache.http.HttpException;
 
 /** An example of using the Unified Gen AI Java SDK to generate content with function calling. */
 public class GenerateContentWithFunctionCall {
-  public static void main(String[] args) throws IOException, HttpException {
+  public static void main(String[] args) {
     // Instantiate the client using Gemini Developer API.
     Client client = new Client();
 

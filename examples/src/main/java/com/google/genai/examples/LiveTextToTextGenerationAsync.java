@@ -47,14 +47,12 @@ import com.google.genai.types.LiveSendClientContentParameters;
 import com.google.genai.types.LiveServerContent;
 import com.google.genai.types.LiveServerMessage;
 import com.google.genai.types.Part;
-import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
-import org.apache.http.HttpException;
 
 /** Example of using the live module to send and receive messages asynchronously. */
 public class LiveTextToTextGenerationAsync {
 
-  public static void main(String[] args) throws IOException, HttpException {
+  public static void main(String[] args) {
     // Instantiates the client.
     Client client =
         Client.builder().httpOptions(HttpOptions.builder().apiVersion("v1alpha").build()).build();

@@ -39,13 +39,11 @@ package com.google.genai.examples;
 
 import com.google.genai.Client;
 import com.google.genai.types.GenerateContentResponse;
-import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
-import org.apache.http.HttpException;
 
 /** An example of using the Unified Gen AI Java SDK to generate content asynchronously. */
 public class GenerateContentAsync {
-  public static void main(String[] args) throws IOException, HttpException {
+  public static void main(String[] args) {
     // Instantiates the client using Gemini Developer API, and sets the API key in the builder.
     Client client = Client.builder().apiKey(System.getenv("GOOGLE_API_KEY")).build();
 

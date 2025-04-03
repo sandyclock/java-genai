@@ -93,11 +93,9 @@ package <your package name>;
 
 import com.google.genai.Client;
 import com.google.genai.types.GenerateContentResponse;
-import java.io.IOException;
-import org.apache.http.HttpException;
 
 public class GenerateContentWithTextInput {
-  public static void main(String[] args) throws IOException, HttpException {
+  public static void main(String[] args) {
     // Instantiate the client. The client by default uses the Gemini API. It gets
     // the API key from the environment variable `GOOGLE_API_KEY`.
     Client client = new Client();
@@ -121,11 +119,9 @@ import com.google.genai.Client;
 import com.google.genai.types.Content;
 import com.google.genai.types.GenerateContentResponse;
 import com.google.genai.types.Part;
-import java.io.IOException;
-import org.apache.http.HttpException;
 
 public class GenerateContentWithImageInput {
-  public static void main(String[] args) throws IOException, HttpException {
+  public static void main(String[] args) {
     // Instantiate the client using Vertex API. The client gets the project and location from the
     // environment variables `GOOGLE_CLOUD_PROJECT` and `GOOGLE_CLOUD_LOCATION`.
     Client client = Client.builder().vertexAI(true).build();
@@ -153,11 +149,9 @@ package <your package name>;
 import com.google.genai.Client;
 import com.google.genai.ResponseStream;
 import com.google.genai.types.GenerateContentResponse;
-import java.io.IOException;
-import org.apache.http.HttpException;
 
 public class StreamGeneration {
-  public static void main(String[] args) throws IOException, HttpException {
+  public static void main(String[] args) {
     // Instantiate the client using Vertex API. The client gets the project and location from the
     // environment variables `GOOGLE_CLOUD_PROJECT` and `GOOGLE_CLOUD_LOCATION`.
     Client client = Client.builder().vertexAI(true).build();
@@ -187,12 +181,10 @@ package <your package name>;
 
 import com.google.genai.Client;
 import com.google.genai.types.GenerateContentResponse;
-import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
-import org.apache.http.HttpException;
 
 public class GenerateContentAsync {
-  public static void main(String[] args) throws IOException, HttpException {
+  public static void main(String[] args) {
     // Instantiates the client using Gemini API, and sets the API key in the builder.
     Client client = Client.builder().apiKey("your-api-key").build();
 
@@ -226,11 +218,9 @@ import com.google.genai.types.GoogleSearch;
 import com.google.genai.types.Part;
 import com.google.genai.types.SafetySetting;
 import com.google.genai.types.Tool;
-import java.io.IOException;
-import org.apache.http.HttpException;
 
 public class GenerateContentWithConfigs {
-  public static void main(String[] args) throws IOException, HttpException {
+  public static void main(String[] args) {
     Client client = new Client();
 
     // Sets the safety settings in the config.
@@ -280,11 +270,9 @@ import com.google.genai.Client;
 import com.google.genai.types.GenerateContentConfig;
 import com.google.genai.types.GenerateContentResponse;
 import com.google.genai.types.Schema;
-import java.io.IOException;
-import org.apache.http.HttpException;
 
 public class GenerateContentWithSchema {
-  public static void main(String[] args) throws IOException, HttpException {
+  public static void main(String[] args) {
     Client client = new Client();
 
     Schema schema =
