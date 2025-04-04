@@ -302,6 +302,9 @@
               <formats>
                 <format>HTML</format>
               </formats>
+              <excludes>
+                <exclude>com/google/genai/types/AutoValue_*.class</exclude>
+              </excludes>
             </configuration>
           </execution>
         </executions>

@@ -64,6 +64,7 @@ public final class Models {
     this.apiClient = apiClient;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode PartToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"videoMetadata"}))) {
@@ -129,6 +130,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode ContentToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"parts"}) != null) {
@@ -153,6 +155,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode SchemaToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"example"}))) {
@@ -291,6 +294,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode SafetySettingToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -315,6 +319,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode FunctionDeclarationToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -346,6 +351,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode GoogleSearchToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -353,6 +359,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode DynamicRetrievalConfigToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -373,6 +380,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode GoogleSearchRetrievalToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -390,6 +398,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode ToolToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"functionDeclarations"}) != null) {
@@ -442,6 +451,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode FunctionCallingConfigToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -462,6 +472,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode ToolConfigToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"functionCallingConfig"}) != null) {
@@ -478,6 +489,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode PrebuiltVoiceConfigToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -491,6 +503,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode VoiceConfigToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"prebuiltVoiceConfig"}) != null) {
@@ -507,6 +520,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode SpeechConfigToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -524,6 +538,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode ThinkingConfigToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -537,6 +552,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode GenerateContentConfigToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -753,6 +769,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode GenerateContentParametersToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -790,6 +807,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode EmbedContentConfigToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -826,6 +844,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode EmbedContentParametersToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -864,6 +883,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode GenerateImagesConfigToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -961,6 +981,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode GenerateImagesParametersToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -993,6 +1014,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode ImageToMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (!Common.isZero(Common.getValueByPath(fromObject, new String[] {"gcsUri"}))) {
@@ -1017,6 +1039,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode GenerateVideosConfigToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -1083,6 +1106,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode GenerateVideosParametersToMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -1126,6 +1150,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode PartToVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"videoMetadata"}) != null) {
@@ -1194,6 +1219,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode ContentToVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"parts"}) != null) {
@@ -1218,6 +1244,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode SchemaToVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"example"}) != null) {
@@ -1377,6 +1404,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode SafetySettingToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -1404,6 +1432,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode FunctionDeclarationToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -1442,6 +1471,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode GoogleSearchToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -1449,6 +1479,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode DynamicRetrievalConfigToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -1469,6 +1500,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode GoogleSearchRetrievalToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -1486,6 +1518,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode ToolToVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"functionDeclarations"}) != null) {
@@ -1542,6 +1575,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode FunctionCallingConfigToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -1562,6 +1596,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode ToolConfigToVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"functionCallingConfig"}) != null) {
@@ -1578,6 +1613,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode PrebuiltVoiceConfigToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -1591,6 +1627,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode VoiceConfigToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -1608,6 +1645,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode SpeechConfigToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -1625,6 +1663,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode ThinkingConfigToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -1638,6 +1677,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode GenerateContentConfigToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -1863,6 +1903,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode GenerateContentParametersToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -1900,6 +1941,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode EmbedContentConfigToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -1942,6 +1984,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode EmbedContentParametersToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -1975,6 +2018,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode GenerateImagesConfigToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -2087,6 +2131,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode GenerateImagesParametersToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -2119,6 +2164,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode ImageToVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"gcsUri"}) != null) {
@@ -2146,6 +2192,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode MaskReferenceConfigToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -2173,6 +2220,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode ControlReferenceConfigToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -2193,6 +2241,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode StyleReferenceConfigToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -2206,6 +2255,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode SubjectReferenceConfigToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -2226,6 +2276,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode ReferenceImageAPIToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -2301,6 +2352,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode EditImageConfigToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -2413,6 +2465,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode EditImageParametersToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -2459,6 +2512,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode UpscaleImageAPIConfigToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -2501,6 +2555,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode UpscaleImageAPIParametersToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -2544,6 +2599,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode GenerateVideosConfigToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -2628,6 +2684,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode GenerateVideosParametersToVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -2671,6 +2728,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode PartFromMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
 
@@ -2733,6 +2791,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode ContentFromMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"parts"}) != null) {
@@ -2757,6 +2816,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode CitationMetadataFromMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -2770,6 +2830,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode CandidateFromMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"content"}) != null) {
@@ -2846,6 +2907,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode GenerateContentResponseFromMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -2886,6 +2948,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode ContentEmbeddingStatisticsFromMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -2893,6 +2956,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode ContentEmbeddingFromMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -2906,6 +2970,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode EmbedContentMetadataFromMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -2913,6 +2978,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode EmbedContentResponseFromMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -2944,6 +3010,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode ImageFromMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
 
@@ -2966,6 +3033,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode SafetyAttributesFromMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -2994,6 +3062,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode GeneratedImageFromMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -3029,6 +3098,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode GenerateImagesResponseFromMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -3062,6 +3132,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode VideoFromMldev(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"video", "uri"}) != null) {
@@ -3090,6 +3161,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode GeneratedVideoFromMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -3107,6 +3179,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode GenerateVideosResponseFromMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -3141,6 +3214,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode GenerateVideosOperationFromMldev(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -3195,6 +3269,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode PartFromVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"videoMetadata"}) != null) {
@@ -3263,6 +3338,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode ContentFromVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"parts"}) != null) {
@@ -3287,6 +3363,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode CitationMetadataFromVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -3300,6 +3377,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode CandidateFromVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -3377,6 +3455,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode GenerateContentResponseFromVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -3431,6 +3510,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode ContentEmbeddingStatisticsFromVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -3451,6 +3531,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode ContentEmbeddingFromVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -3475,6 +3556,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode EmbedContentMetadataFromVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -3488,6 +3570,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode EmbedContentResponseFromVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -3520,6 +3603,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode ImageFromVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"gcsUri"}) != null) {
@@ -3548,6 +3632,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode SafetyAttributesFromVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -3576,6 +3661,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode GeneratedImageFromVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -3618,6 +3704,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode GenerateImagesResponseFromVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -3651,6 +3738,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode EditImageResponseFromVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -3671,6 +3759,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode UpscaleImageResponseFromVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -3691,6 +3780,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode VideoFromVertex(ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
     if (Common.getValueByPath(fromObject, new String[] {"gcsUri"}) != null) {
@@ -3719,6 +3809,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode GeneratedVideoFromVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -3736,6 +3827,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode GenerateVideosResponseFromVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
@@ -3769,6 +3861,7 @@ public final class Models {
     return toObject;
   }
 
+  @ExcludeFromGeneratedCoverageReport
   ObjectNode GenerateVideosOperationFromVertex(
       ApiClient apiClient, JsonNode fromObject, ObjectNode parentObject) {
     ObjectNode toObject = JsonSerializable.objectMapper.createObjectNode();
