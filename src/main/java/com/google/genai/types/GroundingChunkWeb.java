@@ -29,6 +29,10 @@ import java.util.Optional;
 @AutoValue
 @JsonDeserialize(builder = GroundingChunkWeb.Builder.class)
 public abstract class GroundingChunkWeb extends JsonSerializable {
+  /** Domain of the (original) URI. */
+  @JsonProperty("domain")
+  public abstract Optional<String> domain();
+
   /** Title of the chunk. */
   @JsonProperty("title")
   public abstract Optional<String> title();
@@ -53,6 +57,9 @@ public abstract class GroundingChunkWeb extends JsonSerializable {
     private static Builder create() {
       return new AutoValue_GroundingChunkWeb.Builder();
     }
+
+    @JsonProperty("domain")
+    public abstract Builder domain(String domain);
 
     @JsonProperty("title")
     public abstract Builder title(String title);
