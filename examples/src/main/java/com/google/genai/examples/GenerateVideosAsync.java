@@ -91,11 +91,11 @@ public class GenerateVideosAsync {
               }
               System.out.println(
                   "Generated "
-                      + operation.result().get().generatedVideos().get().size()
+                      + operation.response().get().generatedVideos().get().size()
                       + " video(s).");
 
               Video generatedVideo =
-                  operation.result().get().generatedVideos().get().get(0).video().get();
+                  operation.response().get().generatedVideos().get().get(0).video().get();
               // Do something with the video.
             })
         .join();

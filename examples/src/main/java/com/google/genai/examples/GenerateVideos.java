@@ -82,11 +82,11 @@ public class GenerateVideos {
     }
     System.out.println(
         "Generated "
-            + generateVideosOperation.result().get().generatedVideos().get().size()
+            + generateVideosOperation.response().get().generatedVideos().get().size()
             + " video(s).");
 
     Video generatedVideo =
-        generateVideosOperation.result().get().generatedVideos().get().get(0).video().get();
+        generateVideosOperation.response().get().generatedVideos().get().get(0).video().get();
     // Do something with the video.
   }
 }
