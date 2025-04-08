@@ -54,6 +54,17 @@ public abstract class LiveServerContent extends JsonSerializable {
   @JsonProperty("interrupted")
   public abstract Optional<Boolean> interrupted();
 
+  /**
+   * If true, indicates that the model is done generating. When model is interrupted while
+   * generating there will be no generation_complete message in interrupted turn, it will go through
+   * interrupted > turn_complete. When model assumes realtime playback there will be delay between
+   * generation_complete and turn_complete that is caused by model waiting for playback to finish.
+   * If true, indicates that the model has finished generating all content. This is a signal to the
+   * client that it can stop sending messages.
+   */
+  @JsonProperty("generationComplete")
+  public abstract Optional<Boolean> generationComplete();
+
   /** Instantiates a builder for LiveServerContent. */
   public static Builder builder() {
     return new AutoValue_LiveServerContent.Builder();
@@ -79,6 +90,9 @@ public abstract class LiveServerContent extends JsonSerializable {
 
     @JsonProperty("interrupted")
     public abstract Builder interrupted(boolean interrupted);
+
+    @JsonProperty("generationComplete")
+    public abstract Builder generationComplete(boolean generationComplete);
 
     public abstract LiveServerContent build();
   }
