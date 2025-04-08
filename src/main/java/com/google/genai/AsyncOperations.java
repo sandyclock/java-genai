@@ -18,7 +18,6 @@
 
 package com.google.genai;
 
-import com.google.api.core.BetaApi;
 import com.google.genai.types.GenerateVideosOperation;
 import com.google.genai.types.GetOperationConfig;
 import java.util.concurrent.CompletableFuture;
@@ -37,7 +36,6 @@ public final class AsyncOperations {
    * @param config The configuration for getting the operation.
    * @return A GenerateVideosOperation with the updated status of the operation.
    */
-  @BetaApi
   public CompletableFuture<GenerateVideosOperation> getVideoOperation(
       GenerateVideosOperation operation, GetOperationConfig config) {
     return CompletableFuture.supplyAsync(() -> operations.getVideoOperation(operation, config));

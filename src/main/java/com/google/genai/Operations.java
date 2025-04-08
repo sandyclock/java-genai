@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.api.core.BetaApi;
 import com.google.genai.errors.GenAiIOException;
 import com.google.genai.types.FetchPredictOperationConfig;
 import com.google.genai.types.FetchPredictOperationParameters;
@@ -491,7 +490,6 @@ public final class Operations {
    * @param config The configuration for getting the operation.
    * @return A GenerateVideosOperation with the updated status of the operation.
    */
-  @BetaApi
   public GenerateVideosOperation getVideoOperation(
       GenerateVideosOperation operation, GetOperationConfig config) {
 
