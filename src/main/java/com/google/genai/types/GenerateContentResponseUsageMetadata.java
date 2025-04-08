@@ -73,6 +73,13 @@ public abstract class GenerateContentResponseUsageMetadata extends JsonSerializa
   @JsonProperty("totalTokenCount")
   public abstract Optional<Integer> totalTokenCount();
 
+  /**
+   * Output only. Traffic type. This shows whether a request consumes Pay-As-You-Go or Provisioned
+   * Throughput quota.
+   */
+  @JsonProperty("trafficType")
+  public abstract Optional<String> trafficType();
+
   /** Instantiates a builder for GenerateContentResponseUsageMetadata. */
   public static Builder builder() {
     return new AutoValue_GenerateContentResponseUsageMetadata.Builder();
@@ -124,6 +131,9 @@ public abstract class GenerateContentResponseUsageMetadata extends JsonSerializa
 
     @JsonProperty("totalTokenCount")
     public abstract Builder totalTokenCount(Integer totalTokenCount);
+
+    @JsonProperty("trafficType")
+    public abstract Builder trafficType(String trafficType);
 
     public abstract GenerateContentResponseUsageMetadata build();
   }
