@@ -36,6 +36,10 @@ public abstract class ThinkingConfig extends JsonSerializable {
   @JsonProperty("includeThoughts")
   public abstract Optional<Boolean> includeThoughts();
 
+  /** Indicates the thinking budget in tokens. */
+  @JsonProperty("thinkingBudget")
+  public abstract Optional<Integer> thinkingBudget();
+
   /** Instantiates a builder for ThinkingConfig. */
   public static Builder builder() {
     return new AutoValue_ThinkingConfig.Builder();
@@ -55,6 +59,9 @@ public abstract class ThinkingConfig extends JsonSerializable {
 
     @JsonProperty("includeThoughts")
     public abstract Builder includeThoughts(boolean includeThoughts);
+
+    @JsonProperty("thinkingBudget")
+    public abstract Builder thinkingBudget(Integer thinkingBudget);
 
     public abstract ThinkingConfig build();
   }
