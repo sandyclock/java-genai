@@ -51,6 +51,10 @@ public abstract class LiveServerMessage extends JsonSerializable {
   @JsonProperty("toolCallCancellation")
   public abstract Optional<LiveServerToolCallCancellation> toolCallCancellation();
 
+  /** Usage metadata about model response(s). */
+  @JsonProperty("usageMetadata")
+  public abstract Optional<UsageMetadata> usageMetadata();
+
   /** Instantiates a builder for LiveServerMessage. */
   public static Builder builder() {
     return new AutoValue_LiveServerMessage.Builder();
@@ -80,6 +84,9 @@ public abstract class LiveServerMessage extends JsonSerializable {
     @JsonProperty("toolCallCancellation")
     public abstract Builder toolCallCancellation(
         LiveServerToolCallCancellation toolCallCancellation);
+
+    @JsonProperty("usageMetadata")
+    public abstract Builder usageMetadata(UsageMetadata usageMetadata);
 
     public abstract LiveServerMessage build();
   }
