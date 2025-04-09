@@ -50,6 +50,10 @@ public abstract class GenerationConfig extends JsonSerializable {
   @JsonProperty("maxOutputTokens")
   public abstract Optional<Integer> maxOutputTokens();
 
+  /** Optional. If specified, the media resolution specified will be used. */
+  @JsonProperty("mediaResolution")
+  public abstract Optional<String> mediaResolution();
+
   /** Optional. Positive penalties. */
   @JsonProperty("presencePenalty")
   public abstract Optional<Float> presencePenalty();
@@ -132,6 +136,9 @@ public abstract class GenerationConfig extends JsonSerializable {
 
     @JsonProperty("maxOutputTokens")
     public abstract Builder maxOutputTokens(Integer maxOutputTokens);
+
+    @JsonProperty("mediaResolution")
+    public abstract Builder mediaResolution(String mediaResolution);
 
     @JsonProperty("presencePenalty")
     public abstract Builder presencePenalty(Float presencePenalty);
