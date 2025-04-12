@@ -287,7 +287,7 @@ final class Transformers {
       }
       schema = schema.toBuilder().properties(properties.build()).build();
     }
-    logger.info("[Genai] " + schema);
+    // logger.info("[Genai] " + schema);
 
     return schema;
   }
