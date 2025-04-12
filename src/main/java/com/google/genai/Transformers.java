@@ -16,6 +16,13 @@
 
 package com.google.genai;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
+
+import org.jspecify.annotations.Nullable;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableList;
@@ -27,13 +34,11 @@ import com.google.genai.types.Schema;
 import com.google.genai.types.SpeechConfig;
 import com.google.genai.types.Tool;
 import com.google.genai.types.VoiceConfig;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import org.jspecify.annotations.Nullable;
 
 /** Transformers for GenAI SDK. */
 final class Transformers {
+
+    private static final Logger logger = Logger.getLogger(Transformers.class.getName());
 
   private Transformers() {}
 
@@ -266,18 +271,23 @@ final class Transformers {
       schema = schema.toBuilder().items(processSchema(apiClient, schema.items().get())).build();
     }
 
+    // System.out.println("schema: " + schema);
     if (schema.properties().isPresent()) {
+      ImmutableMap.Builder<String, Schema> properties = new ImmutableMap.Builder<>();
       for (Map.Entry<String, Schema> entry : schema.properties().get().entrySet()) {
         String propertyName = entry.getKey();
         Schema propertySchema = entry.getValue();
-        schema =
-            schema.toBuilder()
-                .properties(
-                    ImmutableMap.of(
-                        propertyName, processSchema(apiClient, propertySchema).toBuilder().build()))
-                .build();
+        // schema =
+        //     schema.toBuilder()
+        //         .properties(
+        //             ImmutableMap.of(
+        //                 propertyName, processSchema(apiClient, propertySchema).toBuilder().build()))
+        //         .build();
+        properties.put(propertyName, processSchema(apiClient, propertySchema).toBuilder().build());
       }
+      schema = schema.toBuilder().properties(properties.build()).build();
     }
+    logger.info("[Genai] " + schema);
 
     return schema;
   }

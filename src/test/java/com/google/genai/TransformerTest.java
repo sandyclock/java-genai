@@ -19,12 +19,14 @@ package com.google.genai;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.genai.types.HttpOptions;
 import com.google.genai.types.Schema;
-import java.util.Optional;
-import org.junit.jupiter.api.Test;
 
 public class TransformerTest {
   private static final ApiClient GEMINI_API_CLIENT =
@@ -77,6 +79,24 @@ public class TransformerTest {
     assertEquals(2, transformedSchema.anyOf().get().size());
     assertEquals("STRING", transformedSchema.anyOf().get().get(0).type().get());
     assertEquals("NUMBER", transformedSchema.anyOf().get().get(1).type().get());
+    assertEquals("OBJECT", transformedSchema.type().get());
+  }
+
+  @Test
+  public void testTSchema_properties_success() {
+    Schema schema =
+        Schema.builder()
+            .type("OBJECT")
+            .properties(
+                ImmutableMap.of(
+                    "one", Schema.builder().type("STRING").build(),
+                    "two", Schema.builder().type("NUMBER").build()
+                ))
+            .build();
+    Schema transformedSchema = Transformers.tSchema(GEMINI_API_CLIENT, schema);
+    assertEquals(2, transformedSchema.properties().get().size());
+    assertEquals("STRING", transformedSchema.properties().get().get("one").type().get());
+    assertEquals("NUMBER", transformedSchema.properties().get().get("two").type().get());
     assertEquals("OBJECT", transformedSchema.type().get());
   }
 

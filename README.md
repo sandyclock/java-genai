@@ -9,6 +9,9 @@ Java idiomatic SDK for the
 This is an early release. API is subject to change. Please do not use this SDK
 in production environments at this stage.
 
+## Patches
+1. [April 12, 2025] Fix an issue in which multiple properties were incorrectly pruned to a single property. This change is mainly from [nikifarau](https://github.com/nikifarau).
+
 ## Add dependency
 
 If you're using Maven, add the following to your dependencies:
@@ -25,6 +28,16 @@ If you're using Maven, add the following to your dependencies:
 </dependencies>
 ```
 
+<!-- {x-version-end} -->
+
+## Install to local repository
+
+If you're using the library as a development jar, install it to your local maven respository (i.e. $HOME/.m2):
+
+<!-- {x-version-start:google-genai:released} -->
+```bash
+mvn -Dclirr.skip install
+```
 <!-- {x-version-end} -->
 
 ## Getting Started
